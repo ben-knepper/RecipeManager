@@ -10,7 +10,9 @@ namespace RecipeManager.Models
         public List<Recipe> Recipes { get; set; }
         public RecipeListViewModel()
         {
-            Recipes = RecipeDb.SelectUserRecipes();
+             Recipes = RecipeDb.SelectAllRecipes();
+            //Recipes = RecipeDb.SelectUserRecipes();
         }
+
     }
 }

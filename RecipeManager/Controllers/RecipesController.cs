@@ -24,9 +24,13 @@ namespace RecipeManager.Controllers
 
         public ActionResult Search()
         {
-
-
             return View();
+        }
+        public ActionResult AllRecipes()
+        {
+            RecipeListViewModel model;
+            model = new RecipeListViewModel();
+            return View(model);
         }
         public ActionResult ShoppingList()
         {
@@ -37,6 +41,6 @@ namespace RecipeManager.Controllers
             RecipeListViewModel model;
             model = new RecipeListViewModel();
             return View(model);
-        }
+        }   
     }
 }
