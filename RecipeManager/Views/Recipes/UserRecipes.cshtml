@@ -27,7 +27,7 @@
                     <tr>
                         <td>@Recipe.RecipeId</td>
                         <td>@Recipe.RecipeName</td>
-                        <td>@Html.ActionLink("View","Recipe","Recipes", new { RecipeId = Recipe.RecipeId})</td>
+                        <td>@Html.ActionLink("View","Recipe","Recipes", new { RecipeId = Recipe.RecipeId},null)</td>
                         @* <td>@Recipe.Servings</td>
                             <td>@Recipe.MinutesToMake</td>
                             <td>@Recipe.Image</td>

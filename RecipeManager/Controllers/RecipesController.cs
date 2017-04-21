@@ -32,8 +32,7 @@ namespace RecipeManager.Controllers
         }
         public ActionResult AllRecipes()
         {
-            RecipeListViewModel model;
-            model = new RecipeListViewModel();
+            AllRecipesViewModel model =new AllRecipesViewModel();
             return View(model);
         }
         public ActionResult ShoppingList()
