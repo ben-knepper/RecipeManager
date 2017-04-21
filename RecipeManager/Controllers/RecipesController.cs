@@ -26,6 +26,10 @@ namespace RecipeManager.Controllers
         {
             return View();
         }
+        public ActionResult AddRecipe()
+        {
+            return View();
+        }
         public ActionResult AllRecipes()
         {
             RecipeListViewModel model;

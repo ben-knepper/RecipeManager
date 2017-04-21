@@ -159,7 +159,6 @@ namespace RecipeManager.Models
             return output;
 
         }
-
         public static List<Recipe> SearchRecipes(string searchTerm)
         {
             MySqlConnection connection = MySqlProvider.Connection;
