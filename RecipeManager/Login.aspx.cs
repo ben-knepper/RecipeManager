@@ -44,7 +44,7 @@ namespace CSC455RecipeManager
                 MySqlConnection connection = MySqlProvider.Connection;
 
                 MySqlCommand verifyCommand = connection.CreateCommand();
-                String sanitizedPassword = PasswordSanitationRegex.Replace(PasswordBox.Text, "\\$1");
+                string sanitizedPassword = MySqlProvider.SanitizeString(PasswordBox.Text);
                 verifyCommand.CommandText = "SELECT ValidateUser('" + UsernameBox.Text + "', '" + sanitizedPassword + "') AS Result;";
 
                 verifyReader = verifyCommand.ExecuteReader();

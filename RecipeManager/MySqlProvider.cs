@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace RecipeManager
@@ -94,6 +95,12 @@ namespace RecipeManager
             _recipeIngredientsCommand.Parameters["@recipeId"].Value = recipeId;
 
             return _recipeIngredientsCommand;
+        }
+        
+        private static readonly Regex SanitationRegex = new Regex("(['\"])");
+        public static string SanitizeString(string s)
+        {
+            return SanitationRegex.Replace(s, "\\$1");
         }
 
         #region IDisposable Support
