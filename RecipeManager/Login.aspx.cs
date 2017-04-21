@@ -38,6 +38,7 @@ namespace CSC455RecipeManager
 
             RecipeListBox.Items.Clear();
 
+            MySqlDataReader verifyReader = null;
             try
             {
                 MySqlConnection connection = MySqlProvider.Connection;
@@ -46,7 +47,7 @@ namespace CSC455RecipeManager
                 String sanitizedPassword = PasswordSanitationRegex.Replace(PasswordBox.Text, "\\$1");
                 verifyCommand.CommandText = "SELECT ValidateUser('" + UsernameBox.Text + "', '" + sanitizedPassword + "') AS Result;";
 
-                MySqlDataReader verifyReader = verifyCommand.ExecuteReader();
+                verifyReader = verifyCommand.ExecuteReader();
                 verifyReader.Read();
                 bool isValid = verifyReader["Result"].ToString() == ValidResult;
                 verifyReader.Close();
@@ -66,6 +67,10 @@ namespace CSC455RecipeManager
             catch (Exception ex)
             {
                 ResultLabel.Text = "An error occured: " + ex.Message;
+            }
+            finally
+            {
+                verifyReader?.Close();
             }
         }
 
