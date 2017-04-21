@@ -16,9 +16,12 @@
     
 
     <p>Servings:@Model.Servings</p>
-    <p>Cooking time:@Model.MinutesToMake</p>
+    <p>Cooking time:@Model.MinutesToMake minutes</p>
     <p>Instructions: @Model.Instructions</p>
     <p>Image path : @Model.Image</p>
+
+    
+   @Html.ActionLink("Add to My Recipes", "AddToMyRecipes", "Recipes", new { RecipeId = Model.RecipeId },null)
 
 </div>
 

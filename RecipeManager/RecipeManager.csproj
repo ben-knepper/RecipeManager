@@ -213,6 +213,8 @@
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddRecipeViewModel.cs" />
+    <Compile Include="Models\AllUsersViewModel.cs" />
     <Compile Include="Models\DatabaseConnectModel.cs" />
     <Compile Include="Models\Favorites.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -314,6 +316,8 @@
     <Content Include="Views\Recipes\ShoppingList.cshtml" />
     <Content Include="Views\Recipes\AddRecipe.cshtml" />
     <Content Include="Views\Recipes\AllRecipes.cshtml" />
+    <Content Include="Views\Recipes\ViewUsers.cshtml" />
+    <Content Include="Views\Recipes\Search2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
