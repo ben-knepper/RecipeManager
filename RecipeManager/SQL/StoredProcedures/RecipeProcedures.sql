@@ -1,4 +1,6 @@
 DROP PROCEDURE IF EXISTS CreateRecipe;
+DROP PROCEDURE IF EXISTS CreateRecipePart;
+DROP PROCEDURE IF EXISTS CreateRecipePartWithRecipeId;
 
 DELIMITER //
 
@@ -34,14 +36,17 @@ BEGIN
 		r_servings,
 		r_sourceName,
 		r_minutesToMake);
+
+	-- save the recipe id for creating recipe parts
+	SET @currentRecipe = r_id;
 END; //
 
-CREATE PROCEDURE CreateRecipePart(
+CREATE PROCEDURE CreateRecipePartWithRecipeId(
 	IN r_id				INT,
 	IN r_ingName		CHAR(50),
 	IN r_partAmount		FLOAT,
 	IN r_measureName	CHAR(20),
-	IN r_PartText		VARCHAR(50))
+	IN r_partText		VARCHAR(50))
 BEGIN
 	DECLARE r_partNo	INT;
 
@@ -53,6 +58,22 @@ BEGIN
 	INSERT INTO Recipes VALUES (
 		r_id,
 		r_partNo,
+		r_ingName,
+		r_partAmount,
+		r_measureName,
+		r_partText);
+END; //
+
+CREATE PROCEDURE CreateRecipePart(
+	IN r_ingName		CHAR(50),
+	IN r_partAmount		FLOAT,
+	IN r_measureName	CHAR(20),
+	IN r_partText		VARCHAR(50))
+BEGIN
+	DECLARE r_id		INT;
+	
+	CALL CreateRecipePartWithRecipeId(
+		r_id,
 		r_ingName,
 		r_partAmount,
 		r_measureName,

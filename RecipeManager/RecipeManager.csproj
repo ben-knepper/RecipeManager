@@ -261,7 +261,7 @@
     <Content Include="SQL\Initialization\InsertRecipeParts.sql" />
     <Content Include="SQL\Initialization\InsertRecipes.sql" />
     <Content Include="SQL\Initialization\InsertUsers.sql" />
-    <Content Include="SQL\Misc\CreateRecipe.sql" />
+    <Content Include="SQL\Misc\CreateRecipeOutline.sql" />
     <Content Include="SQL\Misc\RecipeStatements.sql" />
     <Content Include="SQL\Misc\SearchStatements.sql" />
     <Content Include="SQL\StoredProcedures\PerUserProcedures.sql" />
