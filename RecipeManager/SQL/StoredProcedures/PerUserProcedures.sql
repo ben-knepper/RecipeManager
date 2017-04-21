@@ -1,7 +1,8 @@
-DROP PROCEDURE IF EXISTS CreateUserTables;
+DROP PROCEDURE IF EXISTS CreateCurrentUserTable;
 DROP PROCEDURE IF EXISTS CreateUserRecipeList;
 DROP PROCEDURE IF EXISTS CreateUserPantry;
 DROP PROCEDURE IF EXISTS CreateUserShoppingList;
+DROP PROCEDURE IF EXISTS AddRecipeToUserList;
 
 DELIMITER //
 
@@ -51,6 +52,25 @@ BEGIN
 	SELECT IngName, PantryAmount, MeasureName
 	FROM ShoppingLists
 	WHERE UserId = @currentUser;
+END; //
+
+CREATE PROCEDURE AddRecipeToUserList(r_id INT)
+BEGIN
+	DECLARE u_id			INT;
+	DECLARE alreadyExists	INT;
+
+	SET u_id = @currentUser;
+
+	SELECT COUNT(*) INTO alreadyExists
+	FROM UserRecipeList
+	WHERE RecipeId = r_id;
+
+	IF NOT alreadyExists THEN
+
+		INSERT INTO RecipeLists (UserId, RecipeId)
+		VALUES (u_id, r_id);
+
+	END IF;
 END; //
 
 DELIMITER ;
