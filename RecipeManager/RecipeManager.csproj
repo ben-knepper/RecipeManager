@@ -316,6 +316,7 @@
     <Content Include="Views\Recipes\ShoppingList.cshtml" />
     <Content Include="Views\Recipes\AddRecipe.cshtml" />
     <Content Include="Views\Recipes\AllRecipes.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\Recipes\ViewUsers.cshtml" />
     <Content Include="Views\Recipes\Search2.cshtml" />
   </ItemGroup>
