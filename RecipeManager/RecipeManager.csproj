@@ -261,6 +261,7 @@
     <Content Include="SQL\Initialization\InsertRecipeParts.sql" />
     <Content Include="SQL\Initialization\InsertRecipes.sql" />
     <Content Include="SQL\Initialization\InsertUsers.sql" />
+    <Content Include="SQL\PreparedStatements\RecipeStatements.sql" />
     <Content Include="SQL\PreparedStatements\SearchStatements.sql" />
     <Content Include="SQL\StoredProcedures\PerUserProcedures.sql" />
     <Content Include="SQL\StoredProcedures\SearchByCulture.sql" />

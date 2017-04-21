@@ -13,7 +13,7 @@ BEGIN
 	CALL CreateUserShoppingList();
 END; //
 
-CREATE PROCEDURE CreateCurrentUserTable
+CREATE PROCEDURE CreateCurrentUserTable()
 BEGIN
 	DROP TEMPORARY TABLE IF EXISTS CurrentUser;
 
@@ -21,7 +21,7 @@ BEGIN
 	SELECT UserId, Username
 	FROM Users
 	WHERE UserId = @currentUser;
-END;
+END; //
 
 CREATE PROCEDURE CreateUserRecipeList()
 BEGIN

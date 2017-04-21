@@ -38,9 +38,17 @@ namespace RecipeManager
             _connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MySqlConnStr"].ConnectionString);
             _connection.Open();
 
+            // SearchRecipeNames
             // Prepared statement for searching recipes by name
-            MySqlCommand prepStatementCommand = _connection.CreateCommand();
-            prepStatementCommand.CommandText = @"PREPARE SearchRecipeNames FROM 'SELECT * FROM Recipes WHERE RecipeName LIKE CONCAT(\'%\', ?, \'%\')'";
+            MySqlCommand searchRecipeNamesCommand = _connection.CreateCommand();
+            searchRecipeNamesCommand.CommandText = @"PREPARE SearchRecipeNames FROM 'SELECT * FROM Recipes WHERE RecipeName LIKE CONCAT(\'%\', ?, \'%\')'";
+            searchRecipeNamesCommand.ExecuteNonQuery();
+
+            // GetRecipeIngredients
+            // Prepared statement for getting recipe ingredients
+            MySqlCommand getRecipeIngredientsCommand = _connection.CreateCommand();
+            getRecipeIngredientsCommand.CommandText = @"PREPARE GetRecipeIngredients FROM 'SELECT PartText FROM RecipeParts WHERE RecipeId = ? ORDER BY PartNo';";
+            getRecipeIngredientsCommand.ExecuteNonQuery();
         }
 
         public void CloseConnection()

@@ -1,13 +1,13 @@
-DROP FUNCTION IF EXISTS CreateRecipe;
+DROP PROCEDURE IF EXISTS CreateRecipe;
 
 DELIMITER //
 
 CREATE PROCEDURE CreateRecipe(
-	r_name			VARCHAR(100),
-	r_instructions	TEXT,
-	r_image			VARCHAR(200),
-	r_servings		INT,
-	r_minutesToMake	INT)
+	IN r_name			VARCHAR(100),
+	IN r_instructions	TEXT,
+	IN r_image			VARCHAR(200),
+	IN r_servings		INT,
+	IN r_minutesToMake	INT)
 BEGIN
 	DECLARE r_id			INT;
 	DECLARE r_sourceName	VARCHAR(50);
@@ -21,7 +21,7 @@ BEGIN
 	WHERE UsedIds.RecipeId + 1 NOT IN (
 		SELECT RecipeId
 		FROM Recipes);
-	SET r_id = r_id + 1;	
+	SET r_id = r_id + 1;
 
 	SELECT Username INTO r_sourceName
 	FROM CurrentUser;
@@ -34,6 +34,6 @@ BEGIN
 		r_servings,
 		r_sourceName,
 		r_minutesToMake);
-END;
+END; //
 
 DELIMITER ;

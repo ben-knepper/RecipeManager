@@ -60,7 +60,7 @@ BEGIN
 		UPDATE Users
 		SET PassHash = newPassHash, Salt = newSalt 
 		WHERE UserId = @currentUser;
-	END IF
+	END IF;
 END; //
 
 DELIMITER ;
