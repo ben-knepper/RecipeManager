@@ -161,14 +161,19 @@ namespace RecipeManager.Models
         }
         public static List<Recipe> SearchRecipes(string searchTerm)
         {
-            MySqlConnection connection = MySqlProvider.Connection;
+            if (searchTerm == null)
+                searchTerm = "";
 
-            MySqlCommand setSearchTermCommand = connection.CreateCommand();
-            setSearchTermCommand.CommandText = $"SET @searchTerm = '{searchTerm}'";
-            setSearchTermCommand.ExecuteNonQuery();
+            //MySqlConnection connection = MySqlProvider.Connection;
 
-            MySqlCommand searchCommand = connection.CreateCommand();
-            searchCommand.CommandText = "EXECUTE SearchRecipeNames USING @searchTerm";
+            //MySqlCommand setSearchTermCommand = connection.CreateCommand();
+            //setSearchTermCommand.CommandText = $"SET @searchTerm = '{searchTerm}'";
+            //setSearchTermCommand.ExecuteNonQuery();
+
+            //MySqlCommand searchCommand = connection.CreateCommand();
+            //searchCommand.CommandText = "EXECUTE SearchRecipeNames USING @searchTerm";
+
+            MySqlCommand searchCommand = MySqlProvider.Instance.GetSearchCommand(searchTerm);
 
             MySqlDataReader reader = null;
             var output = new List<Recipe>();
@@ -176,7 +181,7 @@ namespace RecipeManager.Models
             {
                 reader = searchCommand.ExecuteReader();
 
-                if (reader.Read())
+                while (reader.Read())
                 {
                     var recipe = new Recipe()
                     {
@@ -194,7 +199,7 @@ namespace RecipeManager.Models
             }
             finally
             {
-                reader?.Read();
+                reader?.Close();
             }
 
             return output;
