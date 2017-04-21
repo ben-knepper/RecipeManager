@@ -31,15 +31,12 @@
         <table id="resultRecipes" class="table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>View</th>
-                    <th>RecipeName</th>
-                    <th>Serving Size</th>
-                    <th>Make Time</th>
+                    <th>Ingredients</th>
                 </tr>
             </thead>
 
             <tbody>
-                @if (Model.Recipe.RecipeParts != null)
+                @if (Model.RecipeParts != null)
             {
                 foreach (var recipePart in Model.RecipeParts)
                 {
