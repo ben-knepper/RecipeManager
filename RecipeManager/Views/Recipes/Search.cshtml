@@ -1,4 +1,6 @@
-﻿
+﻿@model RecipeManager.Models.SearchViewModel
+
+
 @{
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
     ViewBag.Title = "Search";
@@ -9,11 +11,14 @@
 </div>
 
 <p> Please use the search box below to find receipes</p>
+
+
 <div class="container">
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2">
             <div class="input-group">
                 <div class="input-group-btn search-panel">
+                    @Html.BeginForm("Search", "Recipes", FormMethod.Post){ 
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span id="search_concept">Filter by</span> <span class="caret"></span>
                     </button>
@@ -27,16 +32,22 @@
                     </ul>
                 </div>
                 <input type="hidden" name="search_param" value="all" id="search_param">
-                <input type="text" class="form-control" name="searchTerm" placeholder="Search term..." value=@Model.SearchTerm>
+                
+                @Html.TextBoxFor(model=>Model.SearchTerm)
+
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="submit"
                             onclick="location.href='@Url.Action("Search", "Recipes", new { Model.SearchTerm })'">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
-                </span>
+                </span
+                }
             </div>
         </div>
     </div>
+
+
+    
     <div class="panel-body">
         <!-- Recipe List table -->
         <table id="resultRecipes" class="table-bordered table-hover">
