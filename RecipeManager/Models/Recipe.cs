@@ -112,7 +112,7 @@ namespace RecipeManager.Models
             //}
             return output;
         }
-    public static Recipe SelectRecipe(int id)
+        public static Recipe SelectRecipe(int id)
         {
 
             Recipe output = new Recipe();
@@ -160,7 +160,6 @@ namespace RecipeManager.Models
             return output;
 
         }
-
         public static List<Recipe> SearchRecipes(string searchTerm)
         {
             MySqlConnection connection = MySqlProvider.Connection;

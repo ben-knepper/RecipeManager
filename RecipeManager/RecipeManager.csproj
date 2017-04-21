@@ -212,7 +212,6 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ViewAllRecipes.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DatabaseConnectModel.cs" />
     <Compile Include="Models\Favorites.cs" />
