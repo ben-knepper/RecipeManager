@@ -1,18 +1,21 @@
 DROP PROCEDURE IF EXISTS CreateRecipe;
+DROP PROCEDURE IF EXISTS CreateRecipePart;
+DROP PROCEDURE IF EXISTS CreateRecipePartWithRecipeId;
 
 DELIMITER //
 
 CREATE PROCEDURE CreateRecipe(
-	IN r_name			VARCHAR(100),
-	IN r_instructions	TEXT,
-	IN r_image			VARCHAR(200),
-	IN r_servings		INT,
-	IN r_minutesToMake	INT)
+	IN r_name				VARCHAR(100),
+	IN r_instructions		TEXT,
+	IN r_image				VARCHAR(200),
+	IN r_servings			INT,
+	IN r_minutesToMake		INT)
 BEGIN
 	DECLARE r_id			INT;
 	DECLARE r_sourceName	VARCHAR(50);
 
-	SELECT MIN(RecipeId) INTO r_id
+	-- use the lowest avialable id
+	SELECT MIN(RecipeId) + 1 INTO r_id
 	FROM (
 		SELECT RecipeId
 		FROM Recipes
@@ -21,7 +24,6 @@ BEGIN
 	WHERE UsedIds.RecipeId + 1 NOT IN (
 		SELECT RecipeId
 		FROM Recipes);
-	SET r_id = r_id + 1;
 
 	SELECT Username INTO r_sourceName
 	FROM CurrentUser;
@@ -34,6 +36,48 @@ BEGIN
 		r_servings,
 		r_sourceName,
 		r_minutesToMake);
+
+	-- save the recipe id for creating recipe parts
+	SET @currentRecipe = r_id;
+END; //
+
+CREATE PROCEDURE CreateRecipePartWithRecipeId(
+	IN r_id				INT,
+	IN r_ingName		CHAR(50),
+	IN r_partAmount		FLOAT,
+	IN r_measureName	CHAR(20),
+	IN r_partText		VARCHAR(50))
+BEGIN
+	DECLARE r_partNo	INT;
+
+	-- use the next partNo
+	SELECT MAX(PartNo) + 1 INTO r_partNo
+	FROM RecipeParts
+	WHERE RecipeId = r_id;
+
+	INSERT INTO Recipes VALUES (
+		r_id,
+		r_partNo,
+		r_ingName,
+		r_partAmount,
+		r_measureName,
+		r_partText);
+END; //
+
+CREATE PROCEDURE CreateRecipePart(
+	IN r_ingName		CHAR(50),
+	IN r_partAmount		FLOAT,
+	IN r_measureName	CHAR(20),
+	IN r_partText		VARCHAR(50))
+BEGIN
+	DECLARE r_id		INT;
+	
+	CALL CreateRecipePartWithRecipeId(
+		r_id,
+		r_ingName,
+		r_partAmount,
+		r_measureName,
+		r_partText);
 END; //
 
 DELIMITER ;

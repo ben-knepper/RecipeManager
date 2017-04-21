@@ -9,7 +9,17 @@
 
 <h2>Recipe Name</h2>
 <div>
+    <img src=@Html.DisplayFor(model =>Model.Image)" style="height:200px;width:200px;" />
+
+   
+    <p>@Model.RecipeId</p>
     <p>Name: @Model.RecipeName</p>
-    <p>Descirption:</p>
+    
+
+    <p>Servings:@Model.Servings</p>
+    <p>Cooking time:@Model.MinutesToMake</p>
+    <p>Instructions: @Model.Instructions</p>
+    <p>Image path : @Model.Image</p>
+
 </div>
 

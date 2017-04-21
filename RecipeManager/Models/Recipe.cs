@@ -112,7 +112,7 @@ namespace RecipeManager.Models
             }
             return output;
         }
-        public static Recipe SelectRecipe(int id)
+        public static Recipe SelectRecipe(int RecipeId)
         {
 
             Recipe output = new Recipe();
@@ -120,8 +120,8 @@ namespace RecipeManager.Models
 
             MySqlCommand Command = connection.CreateCommand();
             
-            Command.Parameters.AddWithValue("@param1", id);
-            Command.CommandText = "SELECT * FROM UserRecipeList WHERE UserRecipes.RecipeId = @param1";
+            Command.Parameters.AddWithValue("@param1", RecipeId);
+            Command.CommandText = "SELECT * FROM Recipes WHERE RecipeId = @param1";
             
             MySqlDataReader reader = null;
             try
@@ -136,7 +136,7 @@ namespace RecipeManager.Models
                         RecipeId = Convert.ToInt32(reader["RecipeId"]),
                         RecipeName = Convert.ToString(reader["RecipeName"]),
                         Instructions = Convert.ToString(reader["Instructions"]),
-                        Image = new Uri(Convert.ToString(reader["Iamge"])),
+                        Image = new Uri(Convert.ToString(reader["Image"])),
                         Servings = Convert.ToInt16(reader["Servings"]),
                         SourceName = Convert.ToString(reader["SourceName"]),
                         MinutesToMake = Convert.ToInt16(reader["MinutesToMake"])
