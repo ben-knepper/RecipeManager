@@ -183,7 +183,7 @@ namespace RecipeManager.Models
                         RecipeId = Convert.ToInt32(reader["RecipeId"]),
                         RecipeName = Convert.ToString(reader["RecipeName"]),
                         Instructions = Convert.ToString(reader["Instructions"]),
-                        Image = new Uri(Convert.ToString(reader["Iamge"])),
+                        Image = new Uri(Convert.ToString(reader["Image"])),
                         Servings = Convert.ToInt16(reader["Servings"]),
                         SourceName = Convert.ToString(reader["SourceName"]),
                         MinutesToMake = Convert.ToInt16(reader["MinutesToMake"])
