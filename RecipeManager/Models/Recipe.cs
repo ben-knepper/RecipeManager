@@ -67,6 +67,13 @@ namespace RecipeManager.Models
             }
             return output;
         }
+
+        internal static void Insert(AddRecipeViewModel model)
+        {
+            
+            throw new NotImplementedException();
+        }
+
         public static List<Recipe> SelectAllRecipes()
         {
             List<Recipe> output = new List<Recipe>();

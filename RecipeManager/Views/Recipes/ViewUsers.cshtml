@@ -1,0 +1,32 @@
+﻿
+
+@model RecipeManager.Models.AllUsersViewModel
+@{
+    ViewBag.Title = "ViewUsers";
+}
+
+<h2>ViewUsers</h2>
+
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>UserId</th>
+                <th>UserName</th>
+                <th>View Profile</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Users != null)
+            {
+            foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.UserId</td>
+                        <td>@user.Username</td>
+                        <td>@Html.ActionLink(" ", "ViewUserProfile","Recipes")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Search2";
+}
+
+<h2> Search Recipes</h2>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <b>Search by:</b>@Html.RadioButton("searchBy", "Name")<text> Name</text>
+    @Html.RadioButton("searchBy", "Ingredient")<text>Ingredient</text>
+    @Html.RadioButton("searchBy", "Serving Size")<text>Serving Size</text><br>
+    @Html.TextBox("Search");<input type="submit" value="Search" />
+}
+

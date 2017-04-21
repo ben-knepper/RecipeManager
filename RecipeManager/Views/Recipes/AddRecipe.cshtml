@@ -1,4 +1,4 @@
-﻿
+﻿@model RecipeManager.Models.AddRecipeViewModel
 @{
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
     ViewBag.Title = "AddRecipe";
@@ -7,5 +7,50 @@
 <h2>AddRecipe</h2>
 
 
+@using (Html.BeginForm("AddRecipe", "Recipe", FormMethod.Post))
+{
+    <section class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="class">RecipeName: </label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(model => model.RecipeName)
+            </div>
+
+            </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="class">Servings: </label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(model => model.Servings)
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="class">Cookingtime: </label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(model => model.MinutesToMake)
+            </div>
+
+        </div>
+             
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="class">Instructions: </label>
+            <div class="col-sm-6">
+                @Html.TextAreaFor(model => model.Instructions)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="class">Ingredients: </label>
+            <div class="col-sm-6">
+                @Html.TextAreaFor(model => model.ingNames)
+            </div>
+        </div>
+                    
+              
+    </section>
+   
+    <button type="submit">Submit</button>
+}
 
 

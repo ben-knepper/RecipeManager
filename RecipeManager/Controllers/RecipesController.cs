@@ -29,8 +29,24 @@ namespace RecipeManager.Controllers
         }
         public ActionResult AddRecipe()
         {
+            AddRecipeViewModel model = new AddRecipeViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddRecipe(AddRecipeViewModel model)
+
+        {
+
+            if (ModelState.IsValid)
+            {
+                RecipeDb.Insert(model);
+                return RedirectToAction("AllRecipes");
+            }
+
             return View();
         }
+
         public ActionResult AllRecipes()
         {
             AllRecipesViewModel model =new AllRecipesViewModel();
@@ -45,6 +61,20 @@ namespace RecipeManager.Controllers
             RecipeListViewModel model;
             model = new RecipeListViewModel();
             return View(model);
-        }   
+        }
+
+        public ActionResult ViewUsers()
+        {
+            AllUsersViewModel users = new AllUsersViewModel();
+            return View(users);
+
+        }
+
+        public ActionResult AddToMyRecipes(int RecipeId)
+
+        {
+            
+            return RedirectToAction("UserRecipes");
+        }
     }
 }
