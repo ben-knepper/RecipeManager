@@ -40,25 +40,14 @@
         </div>
 
 
-        <div class="form-group">
-            <label class="col-sm-3 control-label" for="class">Ingredient Amount: </label>
-            <div class="col-sm-6">
-
-                @Html.DropDownListFor(model => model.measurements, new SelectList(new[] { "c", "oz", "lb", "serving", "tbs", "ml", }))
-            </div>
-        </div>
-
-
-
+   
         <div class="form-group">
             <label class="col-sm-3 control-label" for="class">Ingredient Name: </label>
             <div class="col-sm-6">
 
-                @Html.TextAreaFor(model => model.ingNames)
+                @Html.TextAreaFor(model => model.RecipePart.PartText)
             </div>
         </div>
-
-
         <button type="submit">Submit</button>
 
         </section>

@@ -70,9 +70,35 @@ namespace RecipeManager.Models
 
         internal static void Insert(AddRecipeViewModel model)
         {
-            
-            throw new NotImplementedException();
+            MySqlConnection connection = MySqlProvider.Connection;
+            MySqlCommand command = new MySqlCommand("CreateRecipe", connection);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@r_id", model.Recipe.RecipeName);
+            command.Parameters.AddWithValue("@r_instructions", model.Recipe.Instructions);
+            command.Parameters.AddWithValue("@r_image", model.Recipe.Image);
+            command.Parameters.AddWithValue("@r_servings", model.Recipe.Servings);
+            command.Parameters.AddWithValue("@r_miutesToMake", model.Recipe.MinutesToMake);
+
+
+
+            try
+            {
+
+                //connection.Open();
+
+                int retval = (Int32)command.ExecuteNonQuery();
+
+            }
+
+            catch (MySqlException ex)
+            {
+
+            }
+
+
         }
+
+    
 
         public static List<Recipe> SelectAllRecipes()
         {
@@ -212,5 +238,7 @@ namespace RecipeManager.Models
             return output;
         }
     }
+
+
 
 }
