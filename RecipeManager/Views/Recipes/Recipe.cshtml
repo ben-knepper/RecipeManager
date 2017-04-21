@@ -15,14 +15,44 @@
     <!--<p>@Model.RecipeId</p>
     <p>Name: @Model.RecipeName</p>-->
     
+    <br/>
+    @Html.ActionLink("Add to My Recipes", "AddToMyRecipes", "Recipes", new { RecipeId = Model.RecipeId }, null)
+    <br/>
 
     <p>Servings:@Model.Servings</p>
     <p>Cooking time:@Model.MinutesToMake minutes</p>
     <p>Instructions: @Model.Instructions</p>
     <!--<p>Image path : @Model.Image</p>-->
 
-    
-   @Html.ActionLink("Add to My Recipes", "AddToMyRecipes", "Recipes", new { RecipeId = Model.RecipeId },null)
+    <br/>
+
+    <div class="panel-body">
+        <!-- Recipe List table -->
+        <table id="resultRecipes" class="table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>View</th>
+                    <th>RecipeName</th>
+                    <th>Serving Size</th>
+                    <th>Make Time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.Recipe.RecipeParts != null)
+            {
+                foreach (var recipePart in Model.RecipeParts)
+                {
+                        <tr>
+                            <td>@recipePart.PartText</td>
+                        </tr>
+
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
 
 </div>
 
