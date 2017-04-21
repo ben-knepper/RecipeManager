@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RecipeManager.Models
 {
     public class AddRecipeViewModel
     {
-        Recipe recipe { get; set; }
-        List<Ingredient> ingNames {get; set;}
-        int PartAmount { get; set; }
-        string measurename { get; set; }
-        string partText { get; set; }
+        public Recipe Recipe { get; set; }
+        public List<Ingredient> ingNames {get; set;}
+        //public List< PartAmount { get; set; }
+        public string measurements{ get; set; }
+        //public 
 
         public AddRecipeViewModel(){
             
