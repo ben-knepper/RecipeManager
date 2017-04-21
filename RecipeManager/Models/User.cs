@@ -16,41 +16,6 @@ namespace RecipeManager.Models
         
         public static class UserDb
         {
-            public static User SelectByUserId(int userid) {
-
-                User output = null;
-                MySqlConnection conn = new MySqlConnection(DatabaseConnectModel.DbConn);
-                MySqlCommand command = new MySqlCommand("SelectByUserId", conn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@Id", userid);
-                try
-                {
-                    conn.Open();
-                    MySqlDataReader DataReader = command.ExecuteReader();
-                    if (DataReader.Read())
-                    {
-                        output = new User()
-                        {
-                            UserId = Convert.ToInt32("UserId"),
-                            Username = DataReader["Username"].ToString(),
-                            PassHash = DataReader["PassHash"].ToString()
-
-
-                        };
-                    }
-
-                }
-                catch
-                {
-
-                }
-                finally
-                {
-                    conn.Close();
-                }
-                return output;
-            }
-
             public static List<User> SelectByAllUsers()
             {
 
@@ -60,11 +25,11 @@ namespace RecipeManager.Models
                 //command.CommandType = CommandType.Text;
                 command.CommandText = "SELECT UserId,Username FROM Users order by UserId"; //"SELECT RecipeName FROM RecipeLists JOIN Recipes on RecipeLists.RecipeId = Recipes.RecipeId";
 
-
+                MySqlDataReader Reader = null;
                 try
                 {
                     //connection.Open();
-                    MySqlDataReader Reader = command.ExecuteReader();
+                    Reader = command.ExecuteReader();
                     if (Reader.Read())
                     {
                         do
@@ -85,6 +50,10 @@ namespace RecipeManager.Models
                 catch (MySqlException ex)
                 {
                     output.Add(new User() { Username = ex.Message });
+                }
+                finally
+                {
+                    Reader?.Close();
                 }
 
                 return output;

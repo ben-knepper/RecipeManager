@@ -36,8 +36,7 @@
                 @Html.TextBoxFor(model=>Model.SearchTerm)
 
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit"
-                            onclick="location.href='@Url.Action("Search", "Recipes", new { Model.SearchTerm })'">
+                    <button class="btn btn-default" type="submit">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                 </span
