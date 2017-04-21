@@ -18,16 +18,24 @@ namespace RecipeManager
             OpenNewConnection();
         }
 
-        public static MySqlConnection Connection
+        public static MySqlProvider Instance
         {
             get
             {
                 if (_instance == null)
                     _instance = new MySqlProvider();
-                if (_instance._connection.State == ConnectionState.Closed
-                    || _instance._connection.State == ConnectionState.Broken)
-                    _instance.OpenNewConnection();
-                return _instance._connection;
+                return _instance;
+            }
+        }
+
+        public static MySqlConnection Connection
+        {
+            get
+            {
+                if (Instance._connection.State == ConnectionState.Closed
+                    || Instance._connection.State == ConnectionState.Broken)
+                    Instance.OpenNewConnection();
+                return Instance._connection;
             }
         }
 
@@ -38,22 +46,54 @@ namespace RecipeManager
             _connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MySqlConnStr"].ConnectionString);
             _connection.Open();
 
-            // SearchRecipeNames
-            // Prepared statement for searching recipes by name
-            MySqlCommand searchRecipeNamesCommand = _connection.CreateCommand();
-            searchRecipeNamesCommand.CommandText = @"PREPARE SearchRecipeNames FROM 'SELECT * FROM Recipes WHERE RecipeName LIKE CONCAT(\'%\', ?, \'%\')'";
-            searchRecipeNamesCommand.ExecuteNonQuery();
+            //// SearchRecipeNames
+            //// Prepared statement for searching recipes by name
+            //MySqlCommand searchRecipeNamesCommand = _connection.CreateCommand();
+            //searchRecipeNamesCommand.CommandText = @"PREPARE SearchRecipeNames FROM 'SELECT * FROM Recipes WHERE RecipeName LIKE CONCAT(\'%\', ?, \'%\')'";
+            //searchRecipeNamesCommand.ExecuteNonQuery();
 
-            // GetRecipeIngredients
-            // Prepared statement for getting recipe ingredients
-            MySqlCommand getRecipeIngredientsCommand = _connection.CreateCommand();
-            getRecipeIngredientsCommand.CommandText = @"PREPARE GetRecipeIngredients FROM 'SELECT PartText FROM RecipeParts WHERE RecipeId = ? ORDER BY PartNo';";
-            getRecipeIngredientsCommand.ExecuteNonQuery();
+            //// GetRecipeIngredients
+            //// Prepared statement for getting recipe ingredients
+            //MySqlCommand getRecipeIngredientsCommand = _connection.CreateCommand();
+            //getRecipeIngredientsCommand.CommandText = @"PREPARE GetRecipeIngredients FROM 'SELECT PartText FROM RecipeParts WHERE RecipeId = ? ORDER BY PartNo';";
+            //getRecipeIngredientsCommand.ExecuteNonQuery();
         }
 
         public void CloseConnection()
         {
             _connection.Close();
+        }
+
+        private MySqlCommand _searchCommand;
+        public MySqlCommand GetSearchCommand(string searchTerm)
+        {
+            if (_searchCommand == null)
+            {
+                _searchCommand = _connection.CreateCommand();
+                _searchCommand.CommandText = @"SELECT * FROM Recipes WHERE RecipeName LIKE CONCAT('%', @searchTerm, '%')";
+                _searchCommand.Prepare();
+                _searchCommand.Parameters.AddWithValue("@searchTerm", "searchTerm");
+            }
+
+            _searchCommand.Parameters["@searchTerm"].Value = searchTerm;
+
+            return _searchCommand;
+        }
+
+        private MySqlCommand _recipeIngredientsCommand;
+        public MySqlCommand GetRecipeIngredientsCommand(int recipeId)
+        {
+            if (_recipeIngredientsCommand == null)
+            {
+                _recipeIngredientsCommand = _connection.CreateCommand();
+                _recipeIngredientsCommand.CommandText = @"PREPARE GetRecipeIngredients FROM 'SELECT PartText FROM RecipeParts WHERE RecipeId = ?recipeId ORDER BY PartNo';";
+                _recipeIngredientsCommand.Prepare();
+                _recipeIngredientsCommand.Parameters.AddWithValue("?recipeId", 0);
+            }
+
+            _recipeIngredientsCommand.Parameters["?recipeId"].Value = recipeId;
+
+            return _searchCommand;
         }
 
         #region IDisposable Support

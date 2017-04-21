@@ -22,9 +22,10 @@ namespace RecipeManager.Controllers
             return View(model);
         }
 
-        public ActionResult Search()
+        public ActionResult Search(string SearchTerm)
         {
-            return View();
+            SearchViewModel model = new SearchViewModel(SearchTerm);
+            return View(model);
         }
         public ActionResult AddRecipe()
         {
