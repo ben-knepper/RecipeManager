@@ -50,7 +50,6 @@ namespace CSC455RecipeManager
                 verifyReader = verifyCommand.ExecuteReader();
                 verifyReader.Read();
                 bool isValid = verifyReader["Result"].ToString() == ValidResult;
-                verifyReader.Close();
                 if (isValid)
                 {
                     OnLoggedIn(sender,e);

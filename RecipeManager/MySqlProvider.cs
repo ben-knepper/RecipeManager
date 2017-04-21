@@ -86,14 +86,14 @@ namespace RecipeManager
             if (_recipeIngredientsCommand == null)
             {
                 _recipeIngredientsCommand = _connection.CreateCommand();
-                _recipeIngredientsCommand.CommandText = @"PREPARE GetRecipeIngredients FROM 'SELECT PartText FROM RecipeParts WHERE RecipeId = ?recipeId ORDER BY PartNo';";
+                _recipeIngredientsCommand.CommandText = @"SELECT PartText FROM RecipeParts WHERE RecipeId = @recipeId ORDER BY PartNo;";
                 _recipeIngredientsCommand.Prepare();
-                _recipeIngredientsCommand.Parameters.AddWithValue("?recipeId", 0);
+                _recipeIngredientsCommand.Parameters.AddWithValue("@recipeId", 0);
             }
 
-            _recipeIngredientsCommand.Parameters["?recipeId"].Value = recipeId;
+            _recipeIngredientsCommand.Parameters["@recipeId"].Value = recipeId;
 
-            return _searchCommand;
+            return _recipeIngredientsCommand;
         }
 
         #region IDisposable Support
