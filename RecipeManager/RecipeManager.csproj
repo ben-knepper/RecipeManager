@@ -313,6 +313,7 @@
     <Content Include="Views\Recipes\ShoppingList.cshtml" />
     <Content Include="Views\Recipes\AddRecipe.cshtml" />
     <Content Include="Views\Recipes\AllRecipes.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
