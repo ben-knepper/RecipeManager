@@ -69,12 +69,14 @@ namespace RecipeManager.Models
             return output;
         }
 
-        internal static void Insert(AddRecipeViewModel model)
+        public static void Insert(AddRecipeViewModel model)
         {
             MySqlConnection connection = MySqlProvider.Connection;
             MySqlCommand command = new MySqlCommand("CreateRecipe", connection);
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@r_id", model.Recipe.RecipeName);
+            //command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText ="Call CreateRecipe(@r_name,@r_instructions,@r_image,@r_servings,@r_minutesToMake)";
+
+            command.Parameters.AddWithValue("@r_name", model.Recipe.RecipeName);
             command.Parameters.AddWithValue("@r_instructions", model.Recipe.Instructions);
             command.Parameters.AddWithValue("@r_image", model.Recipe.Image);
             command.Parameters.AddWithValue("@r_servings", model.Recipe.Servings);
@@ -87,7 +89,7 @@ namespace RecipeManager.Models
 
                 //connection.Open();
 
-                int retval = (Int32)command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
             }
 
