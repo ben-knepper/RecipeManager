@@ -49,7 +49,7 @@ namespace RecipeManager.Models
                             Image = new Uri(Convert.ToString(reader["Image"])),
                             Servings = Convert.ToInt16(reader["Servings"]),
                             SourceName = Convert.ToString(reader["SourceName"]),
-                            MinutesToMake = Convert.ToInt16(reader["MinutesToMake"])
+                            MinutesToMake = Convert.ToInt32(reader["MinutesToMake"])
 
                         };
                         output.Add(recipe);
@@ -72,15 +72,22 @@ namespace RecipeManager.Models
         public static void Insert(AddRecipeViewModel model)
         {
             MySqlConnection connection = MySqlProvider.Connection;
-            MySqlCommand command = new MySqlCommand("CreateRecipe", connection);
+            MySqlCommand command = connection.CreateCommand();
             //command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText ="Call CreateRecipe(@r_name,@r_instructions,@r_image,@r_servings,@r_minutesToMake)";
 
+            string image = "https://spoonacular.com/recipeImages.jpg";
+
+           
+
+            
+           
+
             command.Parameters.AddWithValue("@r_name", model.Recipe.RecipeName);
             command.Parameters.AddWithValue("@r_instructions", model.Recipe.Instructions);
-            command.Parameters.AddWithValue("@r_image", model.Recipe.Image);
+            command.Parameters.AddWithValue("@r_image", image);
             command.Parameters.AddWithValue("@r_servings", model.Recipe.Servings);
-            command.Parameters.AddWithValue("@r_miutesToMake", model.Recipe.MinutesToMake);
+            command.Parameters.AddWithValue("@r_minutesToMake", model.Recipe.MinutesToMake);
 
 
 
@@ -95,7 +102,7 @@ namespace RecipeManager.Models
 
             catch (MySqlException ex)
             {
-
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
 
@@ -122,10 +129,11 @@ namespace RecipeManager.Models
                     {
                         var recipe = new Recipe()
                         {
+
                             RecipeId = Convert.ToInt32(reader["RecipeId"]),
                             RecipeName = Convert.ToString(reader["RecipeName"]),
                             Instructions = Convert.ToString(reader["Instructions"]),
-                            Image = new Uri(Convert.ToString(reader["Image"])),
+                            //Image = new Uri(Convert.ToString(reader["Image"])),
                             Servings = Convert.ToInt16(reader["Servings"]),
                             SourceName = Convert.ToString(reader["SourceName"]),
                             MinutesToMake = Convert.ToInt16(reader["MinutesToMake"])
@@ -173,7 +181,7 @@ namespace RecipeManager.Models
                         RecipeId = Convert.ToInt32(recipeReader["RecipeId"]),
                         RecipeName = Convert.ToString(recipeReader["RecipeName"]),
                         Instructions = Convert.ToString(recipeReader["Instructions"]),
-                        Image = new Uri(Convert.ToString(recipeReader["Image"])),
+                        //Image = new Uri(Convert.ToString(recipeReader["Image"])),
                         Servings = Convert.ToInt16(recipeReader["Servings"]),
                         SourceName = Convert.ToString(recipeReader["SourceName"]),
                         MinutesToMake = Convert.ToInt16(recipeReader["MinutesToMake"])
@@ -258,6 +266,37 @@ namespace RecipeManager.Models
 
             return output;
         }
+        public static void AddToMyRecipes(int RecipeId)
+        {
+           
+            MySqlConnection connection = MySqlProvider.Connection;
+            MySqlCommand command = connection.CreateCommand();
+            //command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "CALL AddToUserRecipeList(@r_id)";
+
+            command.Parameters.AddWithValue("@r_id", RecipeId);
+           
+
+
+            try
+            {
+
+                //connection.Open();
+
+                command.ExecuteNonQuery();
+
+            }
+
+            catch (MySqlException ex)
+            {
+
+            }
+
+
+        }
+
+
+
     }
 
 

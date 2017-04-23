@@ -27,6 +27,7 @@ namespace RecipeManager.Controllers
             SearchViewModel model = new SearchViewModel(SearchTerm);
             return View(model);
         }
+        
         public ActionResult AddRecipe()
         {
             AddRecipeViewModel model = new AddRecipeViewModel();
@@ -37,20 +38,23 @@ namespace RecipeManager.Controllers
         public ActionResult AddRecipe(AddRecipeViewModel model)
 
         {
+          
+    
+            RecipeDb.Insert(model);
+            return RedirectToAction("AllRecipes");
+            
 
-            if (ModelState.IsValid)
-            {
-                RecipeDb.Insert(model);
-                return RedirectToAction("AllRecipes");
-            }
-
-            return View();
+           
         }
 
         public ActionResult AllRecipes()
         {
             AllRecipesViewModel model =new AllRecipesViewModel();
             return View(model);
+        }
+        public ActionResult Viewerprofile()
+        {
+            return View();
         }
         public ActionResult ShoppingList()
         {
@@ -69,11 +73,14 @@ namespace RecipeManager.Controllers
             return View(users);
 
         }
-
+        public ActionResult AccountInfo()
+        {
+            return View();
+        }
         public ActionResult AddToMyRecipes(int RecipeId)
 
         {
-            
+            RecipeDb.AddToMyRecipes(RecipeId);
             return RedirectToAction("UserRecipes");
         }
     }
