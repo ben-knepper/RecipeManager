@@ -77,11 +77,17 @@ namespace RecipeManager.Models
             command.CommandText ="Call CreateRecipe(@r_name,@r_instructions,@r_image,@r_servings,@r_minutesToMake)";
 
             string image = "https://spoonacular.com/recipeImages.jpg";
+
+           
+
+            
+           
+
             command.Parameters.AddWithValue("@r_name", model.Recipe.RecipeName);
             command.Parameters.AddWithValue("@r_instructions", model.Recipe.Instructions);
             command.Parameters.AddWithValue("@r_image", image);
             command.Parameters.AddWithValue("@r_servings", model.Recipe.Servings);
-            command.Parameters.AddWithValue("@r_miutesToMake", model.Recipe.MinutesToMake);
+            command.Parameters.AddWithValue("@r_minutesToMake", model.Recipe.MinutesToMake);
 
 
 
@@ -96,7 +102,7 @@ namespace RecipeManager.Models
 
             catch (MySqlException ex)
             {
-
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
 
 
