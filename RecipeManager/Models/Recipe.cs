@@ -16,6 +16,7 @@ namespace RecipeManager.Models
         public int Servings { get; set; }
         public string SourceName { get; set; }
         public int MinutesToMake { get; set; }
+        public List<RecipePart> RecipeParts { get; set; }
     }
 
     public static class RecipeDb
@@ -154,34 +155,51 @@ namespace RecipeManager.Models
             Recipe output = new Recipe();
             MySqlConnection connection = MySqlProvider.Connection;
 
-            MySqlCommand Command = connection.CreateCommand();
+            MySqlCommand recipeCommand = connection.CreateCommand();
             
-            Command.Parameters.AddWithValue("@param1", RecipeId);
-            Command.CommandText = "SELECT * FROM Recipes WHERE RecipeId = @param1";
+            recipeCommand.Parameters.AddWithValue("@param1", RecipeId);
+            recipeCommand.CommandText = "SELECT * FROM Recipes WHERE RecipeId = @param1";
             
-            MySqlDataReader reader = null;
+            MySqlDataReader recipeReader = null;
+            MySqlDataReader recipePartsReader = null;
             try
             {
 
-                reader = Command.ExecuteReader();
-                if (reader.Read())
+                recipeReader = recipeCommand.ExecuteReader();
+                if (recipeReader.Read())
                 {
 
                     var recipe = new Recipe()
                     {
-                        RecipeId = Convert.ToInt32(reader["RecipeId"]),
-                        RecipeName = Convert.ToString(reader["RecipeName"]),
-                        Instructions = Convert.ToString(reader["Instructions"]),
-                        Image = new Uri(Convert.ToString(reader["Image"])),
-                        Servings = Convert.ToInt16(reader["Servings"]),
-                        SourceName = Convert.ToString(reader["SourceName"]),
-                        MinutesToMake = Convert.ToInt16(reader["MinutesToMake"])
+                        RecipeId = Convert.ToInt32(recipeReader["RecipeId"]),
+                        RecipeName = Convert.ToString(recipeReader["RecipeName"]),
+                        Instructions = Convert.ToString(recipeReader["Instructions"]),
+                        Image = new Uri(Convert.ToString(recipeReader["Image"])),
+                        Servings = Convert.ToInt16(recipeReader["Servings"]),
+                        SourceName = Convert.ToString(recipeReader["SourceName"]),
+                        MinutesToMake = Convert.ToInt16(recipeReader["MinutesToMake"])
 
                     };
                     output = recipe;
 
+                    recipeReader.Close();
 
+                    MySqlCommand recipePartsCommand = MySqlProvider.Instance.
+                        GetRecipeIngredientsCommand(recipe.RecipeId);
+                    recipePartsReader = recipePartsCommand.ExecuteReader();
 
+                    recipe.RecipeParts = new List<RecipePart>();
+                    while (recipePartsReader.Read())
+                    {
+                        RecipePart recipePart = new RecipePart()
+                        {
+                            PartText = Convert.ToString(recipePartsReader["PartText"]),
+                            IngName = Convert.ToString(recipePartsReader["IngName"]),
+                            PartAmount = Convert.ToDouble(recipePartsReader["PartAmount"]),
+                            MeasureName = Convert.ToString(recipePartsReader["MeasureName"])
+                        };
+                        recipe.RecipeParts.Add(recipePart);
+                    }
                 }
             }
             catch (MySqlException ex)
@@ -190,7 +208,8 @@ namespace RecipeManager.Models
             }
             finally
             {
-                reader?.Close();
+                recipeReader?.Close();
+                recipePartsReader?.Close();
             }
             return output;
 
