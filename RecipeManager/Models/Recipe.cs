@@ -265,10 +265,10 @@ namespace RecipeManager.Models
             MySqlConnection connection = MySqlProvider.Connection;
             MySqlCommand command = connection.CreateCommand();
             //command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "CALL (CurrentUser,@r_id)";
+            command.CommandText = "CALL AddToUserRecipeList(@r_id)";
 
             command.Parameters.AddWithValue("@r_id", RecipeId);
-           // command.Parameters.AddWithValue("@UserId", RecipeId);
+           
 
 
             try
