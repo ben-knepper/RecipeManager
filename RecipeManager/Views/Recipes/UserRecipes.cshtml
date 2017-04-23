@@ -6,17 +6,41 @@
 }
 
 <h2>User Recipes</h2>
-
-
-<div class="panel-body"> 
-    <!-- Recipe List table -->
-    <table id="tableRecipes" class="table-bordered table-hover" >
+<div>
+    <table style="display: inline-block;" id="tableRecipes" class="table-bordered table-hover">
         <thead>
-            <tr> 
+            <tr>
                 <th>Recipe Id</th>
                 <th>RecipeName</th>
                 <th>View Recipe</th>
-            </tr>   
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.Recipes != null)
+            {
+                foreach (var Recipe in Model.Recipes)
+                {
+                    <tr>
+                        <td>@Recipe.RecipeId</td>
+                        <td>@Recipe.RecipeName</td>
+                        <td>@Html.ActionLink("View", "Recipe", new { RecipeId = Recipe.RecipeId }, null)</td>
+                        @* <td>@Recipe.Servings</td>
+                            <td>@Recipe.MinutesToMake</td>
+                            <td>@Recipe.Image</td>
+                            <td>@Recipe.SourceName</td>*@
+                    </tr>   
+                }    
+            }
+        </tbody>
+    </table>
+    <table style="display: inline-block;" id="tableRecipes" class="table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Recipe Id</th>
+                <th>RecipeName</th>
+                <th>View Recipe</th>
+            </tr>
         </thead>
 
         <tbody>
@@ -28,7 +52,7 @@
                     <tr>
                         <td>@Recipe.RecipeId</td>
                         <td>@Recipe.RecipeName</td>
-                        <td>@Html.ActionLink("View","Recipe", new { RecipeId = Recipe.RecipeId},null)</td>
+                        <td>@Html.ActionLink("View", "Recipe", new { RecipeId = Recipe.RecipeId }, null)</td>
                         @* <td>@Recipe.Servings</td>
                             <td>@Recipe.MinutesToMake</td>
                             <td>@Recipe.Image</td>
@@ -38,17 +62,6 @@
                 }
 
             }
-
-           
-
-
-
         </tbody>
-
-
-
-
-
     </table>
 </div>
-
