@@ -12,11 +12,7 @@ namespace RecipeManager.Models
         public RecipePart RecipePart { get; set; }
        
 
-        public AddRecipeViewModel(){
-            
-            
-
-            }
+       
 
     }
 }
