@@ -122,10 +122,11 @@ namespace RecipeManager.Models
                     {
                         var recipe = new Recipe()
                         {
+
                             RecipeId = Convert.ToInt32(reader["RecipeId"]),
                             RecipeName = Convert.ToString(reader["RecipeName"]),
                             Instructions = Convert.ToString(reader["Instructions"]),
-                            Image = new Uri(Convert.ToString(reader["Image"])),
+                            //Image = new Uri(Convert.ToString(reader["Image"])),
                             Servings = Convert.ToInt16(reader["Servings"]),
                             SourceName = Convert.ToString(reader["SourceName"]),
                             MinutesToMake = Convert.ToInt16(reader["MinutesToMake"])
@@ -173,7 +174,7 @@ namespace RecipeManager.Models
                         RecipeId = Convert.ToInt32(recipeReader["RecipeId"]),
                         RecipeName = Convert.ToString(recipeReader["RecipeName"]),
                         Instructions = Convert.ToString(recipeReader["Instructions"]),
-                        Image = new Uri(Convert.ToString(recipeReader["Image"])),
+                        //Image = new Uri(Convert.ToString(recipeReader["Image"])),
                         Servings = Convert.ToInt16(recipeReader["Servings"]),
                         SourceName = Convert.ToString(recipeReader["SourceName"]),
                         MinutesToMake = Convert.ToInt16(recipeReader["MinutesToMake"])

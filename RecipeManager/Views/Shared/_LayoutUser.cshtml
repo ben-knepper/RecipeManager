@@ -1,4 +1,22 @@
 ﻿<!DOCTYPE html>
+@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+    {
+        Text = "Account Information",
+        Value = "Account Information",
+        
+        Selected = true
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Logout",
+        Value = "Logout"
+    });
+}
+
+
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -48,14 +66,17 @@
                     <li>@Html.ActionLink("All Recipes", "AllRecipes", "Recipes")</li>
 
                 </ul>
+
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
+                    @Html.DropDownList("DropDownList", listItems, new { @class = "form-control" })
+
+                    @*<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Your Account<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Profile", "Index", "VisitDatas")</li>
                             <li>@Html.ActionLink("Logout", "FindVisitData", "VisitDatas")</li>
                         </ul>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
         </div>

@@ -52,7 +52,7 @@ namespace CSC455RecipeManager
                 bool isValid = verifyReader["Result"].ToString() == ValidResult;
                 if (isValid)
                 {
-                    OnLoggedIn(sender,e);
+                    OnLoggedIn(sender,e, UsernameBox.Text);
                 }
                 else
                 {
@@ -82,8 +82,12 @@ namespace CSC455RecipeManager
         {
             ResultLabel.Text = "Invalid Uername or Password";
         }
-        protected void OnLoggedIn(object sender, EventArgs e)
+        protected void OnLoggedIn(object sender, EventArgs e,String username)
         {
+            HttpCookie userNameCookie = new HttpCookie("RecipeManager");
+            userNameCookie.Values["Username"] = UsernameBox.Text;
+            userNameCookie.Expires = DateTime.Now.AddMinutes(10);
+            Response.Cookies.Add(userNameCookie);
             Response.Redirect("~/Recipes/Index");
         }
     }

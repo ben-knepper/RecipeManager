@@ -52,6 +52,10 @@ namespace RecipeManager.Controllers
             AllRecipesViewModel model =new AllRecipesViewModel();
             return View(model);
         }
+        public ActionResult Viewerprofile()
+        {
+            return View();
+        }
         public ActionResult ShoppingList()
         {
             return View();
@@ -69,7 +73,10 @@ namespace RecipeManager.Controllers
             return View(users);
 
         }
-
+        public ActionResult AccountInfo()
+        {
+            return View();
+        }
         public ActionResult AddToMyRecipes(int RecipeId)
 
         {
