@@ -38,13 +38,12 @@ namespace RecipeManager.Controllers
 
         {
 
-            if (ModelState.IsValid)
-            {
-                RecipeDb.Insert(model);
-                return RedirectToAction("AllRecipes");
-            }
+          
+            RecipeDb.Insert(model);
+            return RedirectToAction("AllRecipes");
+            
 
-            return View();
+           
         }
 
         public ActionResult AllRecipes()
@@ -73,7 +72,7 @@ namespace RecipeManager.Controllers
         public ActionResult AddToMyRecipes(int RecipeId)
 
         {
-            
+            RecipeDb.AddToMyRecipes(RecipeId);
             return RedirectToAction("UserRecipes");
         }
     }
