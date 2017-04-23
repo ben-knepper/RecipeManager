@@ -32,6 +32,7 @@ CREATE PROCEDURE CreateUser(
 BEGIN
 	DECLARE salt			VARCHAR(40);
 	DECLARE passHash		VARCHAR(40);
+	DECLARE u_id			INT;
 
 	SET salt = SHA(RAND()); -- 40 random characters
 	SET passHash = SHA(CONCAT(pwd, salt));
@@ -43,6 +44,11 @@ BEGIN
 		u_name,
 		passHash,
 		salt);
+
+	SELECT UserId INTO u_id
+	FROM CurrentUser;
+
+	SET @currentUser = u_id;
 END; //
 
 CREATE PROCEDURE ChangeUserPassword(
