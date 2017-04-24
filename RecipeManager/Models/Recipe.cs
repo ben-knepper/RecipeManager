@@ -333,11 +333,5 @@ namespace RecipeManager.Models
 
 
         }
-
-
-
     }
-
-
-
 }

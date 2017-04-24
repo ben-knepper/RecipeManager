@@ -68,15 +68,8 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    @Html.DropDownList("DropDownList", listItems, new { @class = "form-control" })
-
-                    @*<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Your Account<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Profile", "Index", "VisitDatas")</li>
-                            <li>@Html.ActionLink("Logout", "FindVisitData", "VisitDatas")</li>
-                        </ul>
-                    </li>*@
+                    <li>@Html.ActionLink("All Recipes", "AllRecipes", "Recipes")</li>
+                    <li>@Html.ActionLink("Logout", "Index", "Home")</li>
                 </ul>
             </div>
         </div>
@@ -95,3 +88,7 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>
+
+</script>
+
