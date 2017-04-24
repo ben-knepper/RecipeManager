@@ -1,8 +1,41 @@
-﻿
+﻿@model RecipeManager.Models.ProfileViewModel
 @{
-    ViewBag.Title = "AccountInfo";
+    ViewBag.Title = "";
     //Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
 <h2>Account Information</h2>
+
+
+<h3>@Model.user.Username</h3>
+
+
+<p>Recipes Contributed: @Model.RecipeContributions</p>
+
+
+<table style="display: inline-block;" id="tableRecipes" class="table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>RecipeName</th>
+            <th>View</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model.Recipes != null)
+            {
+                foreach (var Recipe in Model.Recipes)
+                {
+                <tr>
+                    <td><img src=@Html.DisplayFor(model => Recipe.Image) style="height:50px;width:50px;" /></td>
+                    <td cellpadding="5">@Recipe.RecipeName</td>
+                    <td cellpadding="5">@Html.ActionLink("View", "Recipe", new { RecipeId = Recipe.RecipeId }, null)</td>
+                    
+                </tr>
+            }
+        }
+    </tbody>
+</table>
 

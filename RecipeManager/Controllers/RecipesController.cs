@@ -80,9 +80,11 @@ namespace RecipeManager.Controllers
             return View(users);
 
         }
-        public ActionResult AccountInfo()
+    
+        public ActionResult AccountInfo(int UserId, string UserNme)
         {
-            return View();
+            ProfileViewModel model = new ProfileViewModel(UserId, UserNme);
+            return View(model);
         }
         public ActionResult AddToMyRecipes(int RecipeId)
 

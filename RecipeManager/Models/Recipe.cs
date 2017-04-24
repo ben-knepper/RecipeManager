@@ -21,6 +21,88 @@ namespace RecipeManager.Models
 
     public static class RecipeDb
     {
+
+
+        public static int GetContributions(string UserName)
+        {
+
+            int output = 0;
+            MySqlConnection connection = MySqlProvider.Connection;
+            MySqlCommand Command = connection.CreateCommand();
+            Command.CommandText = "SELECT Count(RecipeId) as contrib FROM Recipes WHERE Recipes.SourceName = @UseName";
+            Command.Parameters.AddWithValue("@UserName", UserName);
+
+            MySqlDataReader reader = null;
+
+            try
+            {
+                reader = Command.ExecuteReader();
+                int contribution = Convert.ToInt32(reader["contrib"]);
+                output = contribution;
+            }
+           
+            catch (MySqlException ex)
+            {
+
+            }
+
+
+            finally
+            {
+                reader?.Close();
+            }
+
+
+            return output;
+
+        }
+
+
+        public static List<Recipe> SelectUserRecipesById(int UserId)
+        {
+
+
+            List<Recipe> output = new List<Recipe>();
+            MySqlConnection connection = MySqlProvider.Connection;
+            MySqlCommand Command = connection.CreateCommand();
+            Command.CommandText = "SELECT * FROM RecipeLists JOIN Recipes WHERE RecipeLists.UserId = @UserId";
+            Command.Parameters.AddWithValue("@UserId", UserId);
+            MySqlDataReader recipeReader = null;
+            try
+            {
+
+                recipeReader = Command.ExecuteReader();
+                if (recipeReader.Read())
+                {
+
+                    var recipe = new Recipe()
+                    {
+                        RecipeId = Convert.ToInt32(recipeReader["RecipeId"]),
+                        RecipeName = Convert.ToString(recipeReader["RecipeName"]),
+                        Instructions = Convert.ToString(recipeReader["Instructions"]),
+                        Image = new Uri(Convert.ToString(recipeReader["Image"])),
+                        Servings = Convert.ToInt16(recipeReader["Servings"]),
+                        SourceName = Convert.ToString(recipeReader["SourceName"]),
+                        MinutesToMake = Convert.ToInt16(recipeReader["MinutesToMake"])
+
+                    };
+                    output.Add(recipe);
+
+                }
+
+
+            }
+            catch (MySqlException ex)
+            {
+                output.Add(new Recipe() { RecipeName = ex.Message });
+            }
+        
+            finally
+            {
+                recipeReader?.Close();
+            }
+            return output;
+        }
         public static List<Recipe> SelectUserRecipes()
         {
 

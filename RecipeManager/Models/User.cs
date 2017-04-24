@@ -113,6 +113,50 @@ namespace RecipeManager.Models
             return output;
         }
 
+        internal static User GetUserInfo(int UserId)
+        {
+            User output = new User();
+            MySqlConnection connection = MySqlProvider.Connection;
 
+            MySqlCommand Command = connection.CreateCommand();
+
+            Command.Parameters.AddWithValue("@param1", UserId);
+            Command.CommandText = "SELECT Username FROM Users WHERE UserId = @param1";
+
+            MySqlDataReader recipeReader = null;
+            
+            try
+            {
+
+                recipeReader = Command.ExecuteReader();
+                if (recipeReader.Read())
+                {
+
+                    var user = new User()
+                    {
+                        
+                        Username = Convert.ToString(recipeReader["UserName"]),
+                       
+                    };
+                    output = user;
+
+                }
+            }
+            catch (MySqlException ex)
+            {
+                
+            }
+
+
+            finally
+            {
+                recipeReader?.Close();
+            }
+
+            return output;
+        }
+        
     }
+
+
 }
