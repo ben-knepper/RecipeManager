@@ -59,7 +59,9 @@ namespace RecipeManager.Controllers
         public ActionResult ShoppingList()
 
         {
-            ShoppingListViewModel model = new ShoppingListViewModel();
+            int UserId = AccountController.currentUser.UserId;
+
+            ShoppingListViewModel model = new ShoppingListViewModel(UserId);
             return View(model);
         }
         public ActionResult UserRecipes(int? Remove = null)
@@ -95,6 +97,10 @@ namespace RecipeManager.Controllers
 
         public ActionResult AddToMyShoppingList(string IngName)
         {
+           // string UserName = AccountController.currentUser.Username;
+
+           // System.Diagnostics.Debug.WriteLine("Printing UserId");
+            //System.Diagnostics.Debug.WriteLine(UserId);
             RecipeDb.AddToMyShoppingList(IngName);
             return RedirectToAction("ShoppingList");
         }

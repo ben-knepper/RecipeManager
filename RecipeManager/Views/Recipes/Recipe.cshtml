@@ -15,13 +15,11 @@
     <!--<p>@Model.RecipeId</p>
     <p>Name: @Model.RecipeName</p>-->
     
-    <br/>
-    @Html.ActionLink("Add to My Recipes", "AddToMyRecipes", "Recipes", new { RecipeId = Model.RecipeId }, null)
-    <br/>
-
+   
     <p>Servings:@Model.Servings</p>
     <p>Cooking time:@Model.MinutesToMake minutes</p>
     <p>Instructions: @Model.Instructions</p>
+    <p>Source: @Model.SourceName</p>
     <!--<p>Image path : @Model.Image</p>-->
     @Html.ActionLink("Add to My Recipes", "AddToMyRecipes", "Recipes", new { RecipeId = Model.RecipeId }, null)
     <br/>

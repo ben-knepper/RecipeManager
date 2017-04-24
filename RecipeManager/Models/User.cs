@@ -34,7 +34,10 @@ namespace RecipeManager.Models
                 reader = validateCommand.ExecuteReader();
                 if (reader.Read())
                 {
-                    user = new User() { Username = username };
+                    user = new User() {
+                        Username = username
+                        //UserId = Convert.ToInt32(reader["storedId"])
+                    };
                 }
             }
             finally
@@ -66,7 +69,7 @@ namespace RecipeManager.Models
             {
                 return null;
             }
-
+           
             return user;
         }
 

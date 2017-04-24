@@ -9,10 +9,10 @@ namespace RecipeManager.Models
     {
         public List<Ingredient> ings { get; set; }
 
-        public ShoppingListViewModel()
+        public ShoppingListViewModel(int UserId)
         {
 
-            ings = RecipeDb.SelectUserShoppingList();
+            ings = RecipeDb.SelectUserShoppingList(UserId);
 
         }
     }

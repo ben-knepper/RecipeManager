@@ -29,15 +29,16 @@ namespace RecipeManager.Models
             int output = 0;
             MySqlConnection connection = MySqlProvider.Connection;
             MySqlCommand Command = connection.CreateCommand();
-            Command.CommandText = "SELECT Count(RecipeId) as contrib FROM Recipes WHERE Recipes.SourceName = @UseName";
-            Command.Parameters.AddWithValue("@UserName", UserName);
+            //"SELECT RecipeId, RecipeName FROM Recipes WHERE SourceName IN(SELECT Username FROM CurrentUser
+            Command.CommandText = "SELECT Count(RecipeId)as contrib FROM Recipes WHERE SourceName IN(SELECT Username FROM CurrentUser)";
+           // Command.Parameters.AddWithValue("@UserName", UserName);
 
-            MySqlDataReader reader = null;
+           // MySqlDataReader reader = null;
 
             try
             {
-                reader = Command.ExecuteReader();
-                int contribution = Convert.ToInt32(reader["contrib"]);
+                //reader = Command.ExecuteReader();
+                int contribution = Convert.ToInt32(Command.ExecuteScalar());
                 output = contribution;
             }
            
@@ -49,7 +50,7 @@ namespace RecipeManager.Models
 
             finally
             {
-                reader?.Close();
+                
             }
 
 
@@ -58,15 +59,16 @@ namespace RecipeManager.Models
         }
 
 
-        public static List<Recipe> SelectUserRecipesById(int UserId)
+        public static List<Recipe> SelectUserRecipesById(int UserId,string UserName)
         {
 
 
             List<Recipe> output = new List<Recipe>();
             MySqlConnection connection = MySqlProvider.Connection;
             MySqlCommand Command = connection.CreateCommand();
-            Command.CommandText = "SELECT * FROM RecipeLists JOIN Recipes WHERE RecipeLists.UserId = @UserId";
+            Command.CommandText = "SELECT * FROM RecipeLists JOIN Recipes WHERE RecipeLists.UserId = @UserId OR Recipes.Sourcename =@u_name";
             Command.Parameters.AddWithValue("@UserId", UserId);
+            Command.Parameters.AddWithValue("@u_name", UserName);
             MySqlDataReader recipeReader = null;
             try
             {
@@ -158,7 +160,8 @@ namespace RecipeManager.Models
             MySqlCommand command = connection.CreateCommand();
             //command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "CALL AddToMyShoppingList(@i_name)";
-           
+
+            //command.Parameters.AddWithValue("@u_name", UserName);
             command.Parameters.AddWithValue("@i_name", IngName);
            
 
@@ -461,7 +464,7 @@ namespace RecipeManager.Models
         }
 
 
-        public static List<Ingredient> SelectUserShoppingList()
+        public static List<Ingredient> SelectUserShoppingList(int UserId)
         {
 
 
@@ -469,7 +472,8 @@ namespace RecipeManager.Models
             MySqlConnection connection = MySqlProvider.Connection;
 
             MySqlCommand recipeListCommand = connection.CreateCommand();
-            recipeListCommand.CommandText = "CALL SelectUserShoopingList()";
+            recipeListCommand.CommandText = "SELECT IngName from ShoppingLists WHERE UserId = @u_id";
+            recipeListCommand.Parameters.Add("@u_id",UserId);
 
             MySqlDataReader reader = null;
             try

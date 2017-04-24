@@ -12,11 +12,13 @@ using RecipeManager.Models;
 
 namespace RecipeManager.Controllers
 {
+   
     [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        public static User currentUser { get; set; }
 
         public AccountController()
         {
@@ -91,6 +93,7 @@ namespace RecipeManager.Controllers
             //}
 
             User user = UserDb.ValidateUser(model.Username, model.Password);
+           
 
             if (user == null)
             {
@@ -99,6 +102,7 @@ namespace RecipeManager.Controllers
             }
             else
             {
+                currentUser = user;
                 return RedirectToAction("Index", "Recipes");
             }
         }
