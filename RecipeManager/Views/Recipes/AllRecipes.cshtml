@@ -12,10 +12,11 @@
     <table id="tableRecipes" class="table-bordered table-hover">
         <thead>
             <tr>
-                <th>View</th>
+                <th>Image</th>
                 <th>RecipeName</th>
                 <th>Serving Size</th>
                 <th>Make Time</th>
+                <th>View</th>
             </tr>
         </thead>
 
@@ -25,10 +26,11 @@
                 foreach (var Recipe in Model.Recipes)
                 {
                     <tr>
-                        <td>@Html.ActionLink("View", "Recipe", "Recipes", new { RecipeId = Recipe.RecipeId }, null)</td>
+                        <td><img src=@Html.DisplayFor(model => Recipe.Image) style="height:50px;width:50px;" /></td>
                         <td>@Recipe.RecipeName</td>
                         <td>@Recipe.Servings</td>
                         <td>@Recipe.MinutesToMake</td>
+                        <td>@Html.ActionLink("View", "Recipe", "Recipes", new { RecipeId = Recipe.RecipeId }, null)</td>
                     </tr>
 
                 }
