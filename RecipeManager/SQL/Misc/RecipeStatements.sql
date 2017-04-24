@@ -1,7 +1,7 @@
 -- gets the ingredient texts for a particular recipe
 SELECT PartText
 FROM RecipeParts
-WHERE RecipeId = ?recipeId
+WHERE RecipeId = @recipeId
 ORDER BY PartNo;
 
 -- gets all recipes created by the current user

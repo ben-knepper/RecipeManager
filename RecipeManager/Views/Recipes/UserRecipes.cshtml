@@ -8,40 +8,12 @@
 <h2>User Recipes</h2>
 <div>
     <table style="display: inline-block;" id="tableRecipes" class="table-bordered table-hover">
-        <thead>
+        @*<thead>
             <tr>
                 <th>Recipe Id</th>
                 <th>RecipeName</th>
-                <th>View Recipe</th>
             </tr>
-        </thead>
-
-        <tbody>
-            @if (Model.Recipes != null)
-            {
-                foreach (var Recipe in Model.Recipes)
-                {
-                    <tr>
-                        <td>@Recipe.RecipeId</td>
-                        <td>@Recipe.RecipeName</td>
-                        <td>@Html.ActionLink("View", "Recipe", new { RecipeId = Recipe.RecipeId }, null)</td>
-                        @* <td>@Recipe.Servings</td>
-                            <td>@Recipe.MinutesToMake</td>
-                            <td>@Recipe.Image</td>
-                            <td>@Recipe.SourceName</td>*@
-                    </tr>   
-                }    
-            }
-        </tbody>
-    </table>
-    <table style="display: inline-block;" id="tableRecipes" class="table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Recipe Id</th>
-                <th>RecipeName</th>
-                <th>View Recipe</th>
-            </tr>
-        </thead>
+        </thead>*@
 
         <tbody>
             @if (Model.Recipes != null)
@@ -50,9 +22,10 @@
                 foreach (var Recipe in Model.Recipes)
                 {
                     <tr>
-                        <td>@Recipe.RecipeId</td>
-                        <td>@Recipe.RecipeName</td>
-                        <td>@Html.ActionLink("View", "Recipe", new { RecipeId = Recipe.RecipeId }, null)</td>
+                        <td><img src=@Html.DisplayFor(model => Recipe.Image) style="height:50px;width:50px;" /></td>
+                        <td cellpadding="5">@Recipe.RecipeName</td>
+                        <td cellpadding="5">@Html.ActionLink("View", "Recipe", new { RecipeId = Recipe.RecipeId }, null)</td>
+                        <td cellpadding="5">@Html.ActionLink("Remove", "UserRecipes", new { Remove = Recipe.RecipeId })</td>
                         @* <td>@Recipe.Servings</td>
                             <td>@Recipe.MinutesToMake</td>
                             <td>@Recipe.Image</td>

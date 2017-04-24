@@ -294,7 +294,23 @@ namespace RecipeManager.Models
 
 
         }
+        public static void RemoveFromMyRecipes(int RecipeId)
+        {
+            MySqlConnection connection = MySqlProvider.Connection;
+            MySqlCommand command = connection.CreateCommand();
 
+            command.CommandText = "CALL DeleteFromUserRecipeList(@r_id)";
+            command.Parameters.AddWithValue("@r_id", RecipeId);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+
+            }
+        }
 
 
     }

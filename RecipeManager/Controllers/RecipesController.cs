@@ -60,8 +60,13 @@ namespace RecipeManager.Controllers
         {
             return View();
         }
-        public ActionResult UserRecipes()
+        public ActionResult UserRecipes(int? Remove = null)
         {
+            if (Remove.HasValue)
+            {
+                RecipeDb.RemoveFromMyRecipes(Remove.Value);
+            }
+
             RecipeListViewModel model;
             model = new RecipeListViewModel();
             return View(model);
