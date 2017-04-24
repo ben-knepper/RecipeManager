@@ -16,7 +16,7 @@ namespace RecipeManager.Models
             user = UserDb.GetUserInfo(UserId);
             // user.UserId = UserId;
             // user.Username = UserName;
-            // Recipes = RecipeDb.SelectUserRecipesById(UserId,UserName);
+            Recipes = RecipeDb.SelectUserRecipesById(UserId,UserName);
             Recipes = RecipeDb.SelectAllUserMadeRecipes();
             RecipeContributions = RecipeDb.GetContributions(UserName);
         }

@@ -11,7 +11,7 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>UserId</th>
+             
                 <th>UserName</th>
                 <th>View Profile</th>
             </tr>
@@ -22,7 +22,7 @@
             foreach (var user in Model.Users)
                 {
                     <tr>
-                        <td>@user.UserId</td>
+                        
                         <td>@user.Username</td>
                         <td>@Html.ActionLink("View", "AccountInfo","Recipes", new { UserId = @user.UserId, UserName = @user.Username},null)</td>
                     </tr>
