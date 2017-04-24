@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
     ViewBag.Title = "My Recipes";
+
 }
 
 <h2>User Recipes</h2>
@@ -47,7 +48,7 @@
             @if (Model.Recipes != null)
             {
 
-                foreach (var Recipe in Model.Recipes)
+                foreach (var Recipe in Model.UserMadeRecipes)
                 {
                     <tr>
                         <td>@Recipe.RecipeId</td>

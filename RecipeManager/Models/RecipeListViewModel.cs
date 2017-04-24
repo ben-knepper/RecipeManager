@@ -8,14 +8,17 @@ namespace RecipeManager.Models
     public class RecipeListViewModel
     {
         public List<Recipe> Recipes { get; set; }
+        public List<Recipe> UserMadeRecipes { get; set; }
         public RecipeListViewModel()
         {
              Recipes = RecipeDb.SelectUserRecipes();
+                UserMadeRecipes = RecipeDb.SelectAllUserMadeRecipes();
         }
     }
     public class AllRecipesViewModel
     {
         public List<Recipe> Recipes { get; set; }
+     
         public AllRecipesViewModel()
         {
            Recipes = RecipeDb.SelectAllRecipes();
