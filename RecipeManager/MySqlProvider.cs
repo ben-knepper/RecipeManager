@@ -71,7 +71,7 @@ namespace RecipeManager
             if (_searchCommand == null)
             {
                 _searchCommand = _connection.CreateCommand();
-                _searchCommand.CommandText = @"SELECT * FROM Recipes WHERE RecipeName LIKE CONCAT('%', @searchTerm, '%')";
+                _searchCommand.CommandText = @"SELECT * FROM Recipes WHERE RecipeName LIKE CONCAT('%', @searchTerm, '%') ORDER BY RecipeName";
                 _searchCommand.Prepare();
                 _searchCommand.Parameters.AddWithValue("@searchTerm", "searchTerm");
             }

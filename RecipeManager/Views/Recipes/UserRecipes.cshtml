@@ -9,12 +9,14 @@
 <h2>User Recipes</h2>
 <div>
     <table style="display: inline-block;" id="tableRecipes" class="table-bordered table-hover">
-        @*<thead>
+        <thead>
             <tr>
-                <th>Recipe Id</th>
+                <th>Image</th>
                 <th>RecipeName</th>
+                <th>View</th>
+                <th>Remove</th>
             </tr>
-        </thead>*@
+        </thead>
 
         <tbody>
             @if (Model.Recipes != null)
