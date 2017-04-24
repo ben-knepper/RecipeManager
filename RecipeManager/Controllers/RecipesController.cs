@@ -53,8 +53,10 @@ namespace RecipeManager.Controllers
             return View(model);
         }
         public ActionResult ShoppingList()
+
         {
-            return View();
+            ShoppingListViewModel model = new ShoppingListViewModel();
+            return View(model);
         }
         public ActionResult UserRecipes()
         {
@@ -75,6 +77,17 @@ namespace RecipeManager.Controllers
         {
             RecipeDb.AddToMyRecipes(RecipeId);
             return RedirectToAction("UserRecipes");
+        }
+
+        public ActionResult AddToMyShoppingList(string IngName)
+        {
+            RecipeDb.AddToMyShoppingList(IngName);
+            return RedirectToAction("ShoppingList");
+        }
+
+        public ActionResult Delete(string IngName)
+        {
+            return RedirectToAction("ShoppingList");
         }
     }
 }

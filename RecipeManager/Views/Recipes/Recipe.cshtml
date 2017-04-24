@@ -32,21 +32,29 @@
             <thead>
                 <tr>
                     <th>Ingredients</th>
+                    <th>Add To Shopping List</th>
                 </tr>
             </thead>
 
             <tbody>
                 @if (Model.RecipeParts != null)
+
             {
+                   
                 foreach (var recipePart in Model.RecipeParts)
                 {
                         <tr>
                             <td>@recipePart.PartText</td>
+                            <td>@Html.ActionLink("Add", "AddToMyShoppingList" , "Recipes" , new { IngName=recipePart.IngName }, null)</td>
                         </tr>
+
 
                     }
 
                 }
+
+               
+
             </tbody>
         </table>
     </div>

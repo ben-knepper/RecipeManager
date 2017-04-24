@@ -69,6 +69,33 @@ namespace RecipeManager.Models
             return output;
         }
 
+        public static void AddToMyShoppingList(string IngName)
+        {
+
+            MySqlConnection connection = MySqlProvider.Connection;
+            MySqlCommand command = connection.CreateCommand();
+            //command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "CALL AddToMyShoppingList(@i_name)";
+           
+            command.Parameters.AddWithValue("@i_name", IngName);
+           
+
+            try
+            {
+
+                //connection.Open();
+
+                command.ExecuteNonQuery();
+
+            }
+
+            catch (MySqlException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+
+        }
+
         public static void Insert(AddRecipeViewModel model)
         {
             MySqlConnection connection = MySqlProvider.Connection;
@@ -295,6 +322,49 @@ namespace RecipeManager.Models
         }
 
 
+
+        public static List<Ingredient> SelectUserShoppingList()
+        {
+
+
+            List<Ingredient> output = new List<Ingredient>();
+            MySqlConnection connection = MySqlProvider.Connection;
+
+            MySqlCommand recipeListCommand = connection.CreateCommand();
+            recipeListCommand.CommandText = "CALL SelectUserShoopingList()";
+
+            MySqlDataReader reader = null;
+            try
+            {
+
+                //connection.Open();
+                reader = recipeListCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    do
+                    {
+                        var ing = new Ingredient()
+                        {
+                           
+                            IngName = Convert.ToString(reader["IngName"]),
+                            
+                        };
+                        output.Add(ing);
+                    } while (reader.Read());
+
+
+                }
+            }
+            catch (MySqlException ex)
+            {
+                output.Add(new Ingredient() { IngName = ex.Message });
+            }
+            finally
+            {
+                reader?.Close();
+            }
+            return output;
+        }
 
     }
 

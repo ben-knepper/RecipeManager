@@ -8,6 +8,7 @@ namespace RecipeManager.Models
 {
     public class Ingredient
     {
+
         public string IngName { get; set; }
         public string PreferredMeasure { get; set; }
 

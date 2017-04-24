@@ -81,3 +81,24 @@ BEGIN
 END; //
 
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS AddToMyShoppingList;
+DELIMITER //
+CREATE PROCEDURE AddToMyShoppingList(IN i_name CHAR)
+BEGIN
+	DECLARE u_id		INT;
+	DECLARE alreadyExists	INT;
+
+	SET u_id = @currentUser;
+
+	SELECT COUNT(*) INTO alreadyExists
+	FROM ShoppingLists
+	WHERE IngName = i_name;
+
+	IF NOT alreadyExists THEN
+
+		INSERT INTO ShoppingList (UserId, IngName)
+		VALUES (u_id,i_name);
+	END IF;
+END; //
+DELIMITER ;

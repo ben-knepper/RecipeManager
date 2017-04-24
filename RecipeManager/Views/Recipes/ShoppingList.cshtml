@@ -1,8 +1,26 @@
-﻿
+﻿@model RecipeManager.Models.ShoppingListViewModel
 @{
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
     ViewBag.Title = "ShoppingList";
 }
 
 <h2>Shopping List</h2>
+
+@if (Model.ings != null)
+            {
+        
+                <th>Ingredient</th>
+                <th>Delete</th>
+    foreach (var ing in Model.ings)
+    {
+        <tr>
+            <td>@ing.IngName</td>
+        </tr>
+        <tr>@Html.ActionLink("Delete", "Delete", "Recipes", new { IngName = ing.IngName }, null)</tr>
+    }
+
+}
+
+
+
 
