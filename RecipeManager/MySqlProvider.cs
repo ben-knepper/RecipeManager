@@ -40,6 +40,59 @@ namespace RecipeManager
             }
         }
 
+        public static bool IsLoggedIn
+        {
+            get
+            {
+                bool result = false;
+
+                MySqlCommand command = Connection.CreateCommand();
+
+                command.CommandText = "SELECT Count(*) FROM CurrentUser";
+
+                MySqlDataReader reader = null;
+                try
+                {
+                    reader = command.ExecuteReader();
+                    result = reader.Read() && Convert.ToInt32(reader[0]) > 0;
+                }
+                catch { }
+                finally
+                {
+                    reader?.Close();
+                }
+
+                return result;
+            }
+        }
+
+        public static string CurrentUsername
+        {
+            get
+            {
+                string result = null;
+
+                MySqlCommand command = Connection.CreateCommand();
+
+                command.CommandText = "SELECT Username FROM CurrentUser";
+
+                MySqlDataReader reader = null;
+                try
+                {
+                    reader = command.ExecuteReader();
+                    if (reader.Read())
+                        result = Convert.ToString(reader["Username"]);
+                }
+                catch { }
+                finally
+                {
+                    reader?.Close();
+                }
+
+                return result;
+            }
+        }
+
         public void OpenNewConnection()
         {
             _connection?.Close();

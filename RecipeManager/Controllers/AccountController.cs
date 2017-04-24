@@ -405,7 +405,18 @@ namespace RecipeManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            var connection = MySqlProvider.Connection;
+            var command = connection.CreateCommand();
+            command.CommandText = "CALL LogoutUser()";
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch { }
+
             return RedirectToAction("Index", "Home");
         }
 
