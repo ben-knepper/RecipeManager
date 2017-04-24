@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
     ViewBag.Title = "My Recipes";
+
 }
 
 <h2>User Recipes</h2>
@@ -19,7 +20,7 @@
             @if (Model.Recipes != null)
             {
 
-                foreach (var Recipe in Model.Recipes)
+                foreach (var Recipe in Model.UserMadeRecipes)
                 {
                     <tr>
                         <td><img src=@Html.DisplayFor(model => Recipe.Image) style="height:50px;width:50px;" /></td>
