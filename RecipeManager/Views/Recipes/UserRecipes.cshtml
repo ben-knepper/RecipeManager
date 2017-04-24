@@ -1,34 +1,60 @@
 ﻿@model RecipeManager.Models.RecipeListViewModel
 
 @{
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    //Layout = "~/Views/Shared/_LayoutUser.cshtml";
     ViewBag.Title = "My Recipes";
+
 }
 
 <h2>User Recipes</h2>
-
-
-<div class="panel-body"> 
-    <!-- Recipe List table -->
-    <table id="tableRecipes" class="table-bordered table-hover" >
+<div>
+    <table style="display: inline-block;" id="tableRecipes" class="table-bordered table-hover">
         <thead>
-            <tr> 
-                <th>Recipe Id</th>
+            <tr>
+                <th>Image</th>
                 <th>RecipeName</th>
-                <th>View Recipe</th>
-            </tr>   
+                <th>View</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.Recipes != null)
+            {
+                foreach (var Recipe in Model.Recipes)
+                {
+                    <tr>
+                        <td><img src=@Html.DisplayFor(model => Recipe.Image) style="height:50px;width:50px;" /></td>
+                        <td cellpadding="5">@Recipe.RecipeName</td>
+                        <td cellpadding="5">@Html.ActionLink("View", "Recipe", new { RecipeId = Recipe.RecipeId }, null)</td>
+                        <td cellpadding="5">@Html.ActionLink("Remove", "UserRecipes", new { Remove = Recipe.RecipeId })</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <table style="float: left" id="tableRecipes" class="table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>RecipeName</th>
+                <th>View</th>
+                <th>Remove</th>
+            </tr>
         </thead>
 
         <tbody>
             @if (Model.Recipes != null)
             {
 
-                foreach (var Recipe in Model.Recipes)
+                foreach (var Recipe in Model.UserMadeRecipes)
                 {
                     <tr>
-                        <td>@Recipe.RecipeId</td>
-                        <td>@Recipe.RecipeName</td>
-                        <td>@Html.ActionLink("View","Recipe", new { RecipeId = Recipe.RecipeId},null)</td>
+                        <td><img src=@Html.DisplayFor(model => Recipe.Image) style="height:50px;width:50px;" /></td>
+                        <td cellpadding="5">@Recipe.RecipeName</td>
+                        <td cellpadding="5">@Html.ActionLink("View", "Recipe", new { RecipeId = Recipe.RecipeId }, null)</td>
+                        <td cellpadding="5">@Html.ActionLink("Remove", "UserRecipes", new { Remove = Recipe.RecipeId })</td>
                         @* <td>@Recipe.Servings</td>
                             <td>@Recipe.MinutesToMake</td>
                             <td>@Recipe.Image</td>
@@ -38,17 +64,6 @@
                 }
 
             }
-
-           
-
-
-
         </tbody>
-
-
-
-
-
     </table>
 </div>
-

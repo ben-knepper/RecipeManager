@@ -47,7 +47,7 @@ namespace RecipeManager.Models
                             RecipeName = Convert.ToString(reader["RecipeName"]),
                             Instructions = Convert.ToString(reader["Instructions"]),
                             Image = new Uri(Convert.ToString(reader["Image"])),
-                            Servings = Convert.ToInt16(reader["Servings"]),
+                            Servings = Convert.ToInt32(reader["Servings"]),
                             SourceName = Convert.ToString(reader["SourceName"]),
                             MinutesToMake = Convert.ToInt32(reader["MinutesToMake"])
 
@@ -136,7 +136,46 @@ namespace RecipeManager.Models
         }
 
     
+        public static List<Recipe> SelectAllUserMadeRecipes()
+        {
+            List<Recipe> output = new List<Recipe>();
+            MySqlConnection connection = MySqlProvider.Connection;
 
+            MySqlCommand recipeListCommand = connection.CreateCommand();
+            recipeListCommand.CommandText = "SELECT RecipeId, RecipeName FROM Recipes WHERE SourceName IN(SELECT Username FROM CurrentUser)";
+
+            MySqlDataReader reader = null;
+            try
+            {
+
+                reader = recipeListCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    do
+                    {
+                        var recipe = new Recipe()
+                        {
+
+                            RecipeId = Convert.ToInt32(reader["RecipeId"]),
+                            RecipeName = Convert.ToString(reader["RecipeName"]),
+                        };
+                        Console.WriteLine(recipe.ToString());
+                        output.Add(recipe);
+                    } while (reader.Read());
+
+
+                }
+            }
+            catch (MySqlException ex)
+            {
+                output.Add(new Recipe() { RecipeName = ex.Message });
+            }
+            finally
+            {
+                reader?.Close();
+            }
+            return output;
+        }
         public static List<Recipe> SelectAllRecipes()
         {
             List<Recipe> output = new List<Recipe>();
@@ -156,11 +195,12 @@ namespace RecipeManager.Models
                     {
                         var recipe = new Recipe()
                         {
+
                             RecipeId = Convert.ToInt32(reader["RecipeId"]),
                             RecipeName = Convert.ToString(reader["RecipeName"]),
                             Instructions = Convert.ToString(reader["Instructions"]),
                             Image = new Uri(Convert.ToString(reader["Image"])),
-                            Servings = Convert.ToInt16(reader["Servings"]),
+                            Servings = Convert.ToInt32(reader["Servings"]),
                             SourceName = Convert.ToString(reader["SourceName"]),
                             MinutesToMake = Convert.ToInt16(reader["MinutesToMake"])
 
@@ -277,9 +317,9 @@ namespace RecipeManager.Models
                         RecipeName = Convert.ToString(reader["RecipeName"]),
                         Instructions = Convert.ToString(reader["Instructions"]),
                         Image = new Uri(Convert.ToString(reader["Image"])),
-                        Servings = Convert.ToInt16(reader["Servings"]),
+                        Servings = Convert.ToInt32(reader["Servings"]),
                         SourceName = Convert.ToString(reader["SourceName"]),
-                        MinutesToMake = Convert.ToInt16(reader["MinutesToMake"])
+                        MinutesToMake = Convert.ToInt32(reader["MinutesToMake"])
                     };
 
                     output.Add(recipe);
@@ -320,7 +360,23 @@ namespace RecipeManager.Models
 
 
         }
+        public static void RemoveFromMyRecipes(int RecipeId)
+        {
+            MySqlConnection connection = MySqlProvider.Connection;
+            MySqlCommand command = connection.CreateCommand();
 
+            command.CommandText = "CALL DeleteFromUserRecipeList(@r_id)";
+            command.Parameters.AddWithValue("@r_id", RecipeId);
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+
+            }
+        }
 
 
         public static List<Ingredient> SelectUserShoppingList()

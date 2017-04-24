@@ -2,14 +2,14 @@
 @model RecipeManager.Models.Recipe
 
 @{
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    //Layout = "~/Views/Shared/_LayoutUser.cshtml";
     ViewBag.Title = "Recipe";
 
 }
 
 <h2>@Model.RecipeName</h2>
 <div>
-    <img src=@Html.DisplayFor(model =>Model.Image) /> <!--style="height:200px;width:200px;"-->
+    <img src=@Html.DisplayFor(model =>Model.Image) style="height:200px;width:200px;"/>
 
    
     <!--<p>@Model.RecipeId</p>

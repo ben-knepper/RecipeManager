@@ -52,14 +52,23 @@ namespace RecipeManager.Controllers
             AllRecipesViewModel model =new AllRecipesViewModel();
             return View(model);
         }
+        public ActionResult Viewerprofile()
+        {
+            return View();
+        }
         public ActionResult ShoppingList()
 
         {
             ShoppingListViewModel model = new ShoppingListViewModel();
             return View(model);
         }
-        public ActionResult UserRecipes()
+        public ActionResult UserRecipes(int? Remove = null)
         {
+            if (Remove.HasValue)
+            {
+                RecipeDb.RemoveFromMyRecipes(Remove.Value);
+            }
+
             RecipeListViewModel model;
             model = new RecipeListViewModel();
             return View(model);
@@ -71,7 +80,10 @@ namespace RecipeManager.Controllers
             return View(users);
 
         }
-
+        public ActionResult AccountInfo()
+        {
+            return View();
+        }
         public ActionResult AddToMyRecipes(int RecipeId)
 
         {

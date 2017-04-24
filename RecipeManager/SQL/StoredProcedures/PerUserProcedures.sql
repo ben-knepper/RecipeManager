@@ -4,6 +4,7 @@ DROP PROCEDURE IF EXISTS CreateUserRecipeList;
 DROP PROCEDURE IF EXISTS CreateUserPantry;
 DROP PROCEDURE IF EXISTS CreateUserShoppingList;
 DROP PROCEDURE IF EXISTS AddToUserRecipeList;
+DROP PROCEDURE IF EXISTS DeleteFromUserRecipeList;
 
 DELIMITER //
 
@@ -76,7 +77,7 @@ BEGIN
 	END IF;
 END; //
 
-CREATE PROCEDURE RemoveFromUserRecipeList(r_id INT)
+CREATE PROCEDURE DeleteFromUserRecipeList(r_id INT)
 BEGIN
 	DECLARE u_id			INT;
 	DECLARE doesExist		INT;

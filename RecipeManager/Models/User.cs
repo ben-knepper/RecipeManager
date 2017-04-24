@@ -11,56 +11,108 @@ namespace RecipeManager.Models
     {
         public int UserId { get; set; }
         public string Username { get; set; }
-        public string PassHash { get; set; }
-        public string Salt { get; set; }
-        
-        public static class UserDb
+        //public string PassHash { get; set; }
+        //public string Salt { get; set; }
+    }
+
+    public static class UserDb
+    {
+        public static User ValidateUser(string username, string password)
         {
-            public static List<User> SelectByAllUsers()
+            User user = null;
+
+            var connection = MySqlProvider.Connection;
+
+            MySqlCommand validateCommand = connection.CreateCommand();
+            validateCommand.CommandText = "SELECT ValidateUser(@username, @password)";
+            validateCommand.Parameters.AddWithValue("@username", username);
+            validateCommand.Parameters.AddWithValue("@password", password);
+
+            MySqlDataReader reader = null;
+            try
             {
-
-                List<User> output = new List<User>();
-                MySqlConnection connection = MySqlProvider.Connection;
-                MySqlCommand command = connection.CreateCommand();
-                //command.CommandType = CommandType.Text;
-                command.CommandText = "SELECT UserId,Username FROM Users order by UserId"; //"SELECT RecipeName FROM RecipeLists JOIN Recipes on RecipeLists.RecipeId = Recipes.RecipeId";
-
-                MySqlDataReader Reader = null;
-                try
+                reader = validateCommand.ExecuteReader();
+                if (reader.Read())
                 {
-                    //connection.Open();
-                    Reader = command.ExecuteReader();
-                    if (Reader.Read())
-                    {
-                        do
-                        {
-                            var user = new User()
-                            {
-                                UserId = Convert.ToInt32(Reader["UserId"]),
-                                Username = Convert.ToString(Reader["Username"]),
-                                // PassHash = Reader["PassHash"].ToString()
-
-
-                            };
-                            output.Add(user);
-                        } while (Reader.Read());
-                    }
-
+                    user = new User() { Username = username };
                 }
-                catch (MySqlException ex)
-                {
-                    output.Add(new User() { Username = ex.Message });
-                }
-                finally
-                {
-                    Reader?.Close();
-                }
-
-                return output;
+            }
+            finally
+            {
+                reader?.Close();
             }
 
+            return user;
+        }
 
-        }  
+        public static User CreateUser(string username, string password)
+        {
+            User user = null;
+
+            var connection = MySqlProvider.Connection;
+
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = "CALL CreateUser(@username, @password)";
+            command.Parameters.AddWithValue("@username", username);
+            command.Parameters.AddWithValue("@password", password);
+
+            try
+            {
+                command.ExecuteNonQuery();
+
+                user = new User() { Username = username };
+            }
+            catch
+            {
+                return null;
+            }
+
+            return user;
+        }
+
+        public static List<User> SelectByAllUsers()
+        {
+
+            List<User> output = new List<User>();
+            MySqlConnection connection = MySqlProvider.Connection;
+            MySqlCommand command = connection.CreateCommand();
+            //command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT UserId,Username FROM Users order by UserId"; //"SELECT RecipeName FROM RecipeLists JOIN Recipes on RecipeLists.RecipeId = Recipes.RecipeId";
+
+            MySqlDataReader Reader = null;
+            try
+            {
+                //connection.Open();
+                Reader = command.ExecuteReader();
+                if (Reader.Read())
+                {
+                    do
+                    {
+                        var user = new User()
+                        {
+                            UserId = Convert.ToInt32(Reader["UserId"]),
+                            Username = Convert.ToString(Reader["Username"]),
+                            // PassHash = Reader["PassHash"].ToString()
+
+
+                        };
+                        output.Add(user);
+                    } while (Reader.Read());
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                output.Add(new User() { Username = ex.Message });
+            }
+            finally
+            {
+                Reader?.Close();
+            }
+
+            return output;
+        }
+
 
     }
 }
