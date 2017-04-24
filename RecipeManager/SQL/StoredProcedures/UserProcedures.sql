@@ -1,6 +1,7 @@
 DROP FUNCTION IF EXISTS ValidateUser;
 DROP PROCEDURE IF EXISTS CreateUser;
 DROP PROCEDURE IF EXISTS ChangeUserPassword;
+DROP PROCEDURE IF EXISTS LogoutUser;
 
 DELIMITER //
 
@@ -46,9 +47,12 @@ BEGIN
 		salt);
 
 	SELECT UserId INTO u_id
-	FROM CurrentUser;
+	FROM Users
+	WHERE Username = u_name;
 
 	SET @currentUser = u_id;
+
+	CALL CreateUserTables();
 END; //
 
 CREATE PROCEDURE ChangeUserPassword(
@@ -67,6 +71,13 @@ BEGIN
 		SET PassHash = newPassHash, Salt = newSalt 
 		WHERE UserId = @currentUser;
 	END IF;
+END; //
+
+CREATE PROCEDURE LogoutUser()
+BEGIN
+	SET @currentUser = -1;
+
+	CALL CreateUserTables();
 END; //
 
 DELIMITER ;

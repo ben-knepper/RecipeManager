@@ -99,7 +99,7 @@ namespace RecipeManager.Controllers
             }
             else
             {
-                return RedirectToLocal(returnUrl);
+                return RedirectToAction("Index", "Recipes");
             }
         }
 
