@@ -110,7 +110,7 @@ CREATE TABLE Pantries (
 CREATE TABLE ShoppingLists (
 	UserId				INT				NOT NULL,
 	IngName				CHAR(50)		NOT NULL,
-	PantryAmount		INT,
+	ShopListAmount		INT,
 	MeasureName			CHAR(20),
 	PRIMARY KEY (UserId, IngName),
 	FOREIGN KEY (UserId)
@@ -129,9 +129,9 @@ CREATE TABLE ShoppingLists (
 
 						
 CREATE TABLE Conversions (
-	OldMeasure			CHAR(15)		NOT NULL,
-	NewMeasure			CHAR(15)		NOT NULL,
-	ConvRate			INT,
+	OldMeasure			CHAR(20)		NOT NULL,
+	NewMeasure			CHAR(20)		NOT NULL,
+	ConvRate			FLOAT,
 	PRIMARY KEY (OldMeasure,NewMeasure),
 	FOREIGN KEY (OldMeasure)
 		REFERENCES Measurements(MeasureName)
