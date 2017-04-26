@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace RecipeManager.Models
@@ -184,32 +185,40 @@ namespace RecipeManager.Models
         public static void Insert(AddRecipeViewModel model)
         {
             MySqlConnection connection = MySqlProvider.Connection;
-            MySqlCommand command = connection.CreateCommand();
-            //command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText ="Call CreateRecipe(@r_name,@r_instructions,@r_image,@r_servings,@r_minutesToMake)";
+            MySqlCommand createRecipeCommand = connection.CreateCommand();
+            MySqlCommand startTransactionCommand = connection.CreateCommand();
+            MySqlCommand endTransactionCommand = connection.CreateCommand();
+
+            startTransactionCommand.CommandText = "START TRANSACTION";
+            endTransactionCommand.CommandText = "COMMIT";
+            createRecipeCommand.CommandText ="CALL CreateRecipe(@r_name,@r_instructions,@r_image,@r_servings,@r_minutesToMake)";
 
             string image = "https://spoonacular.com/recipeImages.jpg";
 
-           
+            createRecipeCommand.Parameters.AddWithValue("@r_name", model.Recipe.RecipeName);
+            createRecipeCommand.Parameters.AddWithValue("@r_instructions", model.Recipe.Instructions);
+            createRecipeCommand.Parameters.AddWithValue("@r_image", image);
+            createRecipeCommand.Parameters.AddWithValue("@r_servings", model.Recipe.Servings);
+            createRecipeCommand.Parameters.AddWithValue("@r_minutesToMake", model.Recipe.MinutesToMake);
 
-            
-           
-
-            command.Parameters.AddWithValue("@r_name", model.Recipe.RecipeName);
-            command.Parameters.AddWithValue("@r_instructions", model.Recipe.Instructions);
-            command.Parameters.AddWithValue("@r_image", image);
-            command.Parameters.AddWithValue("@r_servings", model.Recipe.Servings);
-            command.Parameters.AddWithValue("@r_minutesToMake", model.Recipe.MinutesToMake);
-
-
+            List<RecipePart> recipeParts = new List<RecipePart>();
+            string[] partTexts = Regex.Split(model.IngredientsText, @"\r\n|\n");
+            foreach (string partText in partTexts)
+            {
+                recipeParts.Add(new RecipePart { PartText = partText });
+            }
 
             try
             {
+                startTransactionCommand.ExecuteNonQuery();
+                createRecipeCommand.ExecuteNonQuery();
 
-                //connection.Open();
+                foreach (RecipePart recipePart in recipeParts)
+                {
+                    InsertRecipePart(recipePart);
+                }
 
-                command.ExecuteNonQuery();
-
+                endTransactionCommand.ExecuteNonQuery();
             }
 
             catch (MySqlException ex)
@@ -218,6 +227,22 @@ namespace RecipeManager.Models
             }
 
 
+        }
+        private static void InsertRecipePart(RecipePart recipePart)
+        {
+            MySqlCommand createRecipePartCommand = MySqlProvider.Connection.CreateCommand();
+            createRecipePartCommand.CommandText = "CALL CreateRecipePart(@ingName, @partAmount, @measureName, @partText)";
+
+            createRecipePartCommand.Parameters.AddWithValue("@ingName", null);
+            createRecipePartCommand.Parameters.AddWithValue("@partAmount", null);
+            createRecipePartCommand.Parameters.AddWithValue("@measureName", null);
+            createRecipePartCommand.Parameters.AddWithValue("@partText", recipePart.PartText);
+
+            try
+            {
+                createRecipePartCommand.ExecuteNonQuery();
+            }
+            catch { }
         }
 
     

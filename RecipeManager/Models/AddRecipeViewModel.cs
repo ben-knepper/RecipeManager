@@ -9,8 +9,8 @@ namespace RecipeManager.Models
     public class AddRecipeViewModel
     {
         public Recipe Recipe { get; set; }
-        public RecipePart RecipePart { get; set; }
-       
+        public string IngredientsText{ get; set; }
+
 
        
 
