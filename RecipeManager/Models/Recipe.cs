@@ -31,10 +31,10 @@ namespace RecipeManager.Models
             MySqlConnection connection = MySqlProvider.Connection;
             MySqlCommand Command = connection.CreateCommand();
             //"SELECT RecipeId, RecipeName FROM Recipes WHERE SourceName IN(SELECT Username FROM CurrentUser
-            Command.CommandText = "SELECT Count(RecipeId)as contrib FROM Recipes WHERE SourceName IN(SELECT Username FROM CurrentUser)";
-           // Command.Parameters.AddWithValue("@UserName", UserName);
+            Command.CommandText = "SELECT Count(RecipeId)as contrib FROM Recipes WHERE SourceName = @UserName";
+            Command.Parameters.AddWithValue("@UserName", UserName);
 
-           // MySqlDataReader reader = null;
+            // MySqlDataReader reader = null;
 
             try
             {
@@ -205,7 +205,8 @@ namespace RecipeManager.Models
             string[] partTexts = Regex.Split(model.IngredientsText, @"\r\n|\n");
             foreach (string partText in partTexts)
             {
-                recipeParts.Add(new RecipePart { PartText = partText });
+                if (!String.IsNullOrWhiteSpace(partText))
+                    recipeParts.Add(new RecipePart { PartText = partText });
             }
 
             try
@@ -233,16 +234,19 @@ namespace RecipeManager.Models
             MySqlCommand createRecipePartCommand = MySqlProvider.Connection.CreateCommand();
             createRecipePartCommand.CommandText = "CALL CreateRecipePart(@ingName, @partAmount, @measureName, @partText)";
 
-            createRecipePartCommand.Parameters.AddWithValue("@ingName", null);
-            createRecipePartCommand.Parameters.AddWithValue("@partAmount", null);
-            createRecipePartCommand.Parameters.AddWithValue("@measureName", null);
+            createRecipePartCommand.Parameters.AddWithValue("@ingName", ""); // dummy value
+            createRecipePartCommand.Parameters.AddWithValue("@partAmount", 0); // dummy value
+            createRecipePartCommand.Parameters.AddWithValue("@measureName", ""); // dummy value
             createRecipePartCommand.Parameters.AddWithValue("@partText", recipePart.PartText);
 
             try
             {
                 createRecipePartCommand.ExecuteNonQuery();
             }
-            catch { }
+            catch (Exception ex)
+            {
+
+            }
         }
 
     
@@ -287,7 +291,7 @@ namespace RecipeManager.Models
             return output;
         }
 
-        public static List<Recipe> SelectAllUserMadeRecipes2(string UserName)
+        public static List<Recipe> SelectAllUserMadeRecipes(string UserName)
         {
             List<Recipe> output = new List<Recipe>();
             MySqlConnection connection = MySqlProvider.Connection;
@@ -334,7 +338,7 @@ namespace RecipeManager.Models
             MySqlConnection connection = MySqlProvider.Connection;
 
             MySqlCommand recipeListCommand = connection.CreateCommand();
-            recipeListCommand.CommandText = "SELECT * FROM Recipes";
+            recipeListCommand.CommandText = "SELECT * FROM Recipes ORDER BY RecipeName";
 
             MySqlDataReader reader = null;
             try

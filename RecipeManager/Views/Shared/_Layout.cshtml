@@ -50,12 +50,12 @@
                     <li>@Html.ActionLink("Home", "Index", "Recipes")</li>
                     <li>@Html.ActionLink("All Recipes", "AllRecipes", "Recipes")</li>
                     <li>@Html.ActionLink("Find Recipes", "Search", "Recipes")</li>
+                    <li>@Html.ActionLink("Users", "ViewUsers", "Recipes")</li>
                     @{
                         if (MySqlProvider.IsLoggedIn)
                         {
                             <li>@Html.ActionLink("My Recipes", "UserRecipes", "Recipes")</li>
                             <li>@Html.ActionLink("Shopping List", "ShoppingList", "Recipes")</li>
-                            <li>@Html.ActionLink("All Users", "ViewUsers", "Recipes")</li>
                         }
                     }
 

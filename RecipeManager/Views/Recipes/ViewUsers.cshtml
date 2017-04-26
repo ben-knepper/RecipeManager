@@ -24,7 +24,7 @@
                     <tr>
                         
                         <td>@user.Username</td>
-                        <td>@Html.ActionLink("View", "AccountInfo","Recipes", new { UserId = @user.UserId, UserName = @user.Username},null)</td>
+                        <td>@Html.ActionLink("View", "AccountInfo","Recipes", new { UserId = user.UserId, UserName = user.Username}, null)</td>
                     </tr>
                 }
             }
